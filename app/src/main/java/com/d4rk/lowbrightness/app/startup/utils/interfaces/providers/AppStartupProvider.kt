@@ -4,7 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.d4rk.android.libs.apptoolkit.app.oboarding.ui.OnboardingActivity
+import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.OnboardingActivity
 import com.d4rk.android.libs.apptoolkit.app.startup.utils.interfaces.providers.StartupProvider
 import com.google.android.ump.ConsentRequestParameters
 import javax.inject.Inject

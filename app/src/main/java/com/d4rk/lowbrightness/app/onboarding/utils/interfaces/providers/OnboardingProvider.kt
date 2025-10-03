@@ -1,16 +1,17 @@
 package com.d4rk.lowbrightness.app.onboarding.utils.interfaces.providers
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Brightness2
 import androidx.compose.material.icons.outlined.RemoveRedEye
 import androidx.compose.material.icons.outlined.SettingsBrightness
-import com.d4rk.android.libs.apptoolkit.app.oboarding.domain.data.model.ui.OnboardingPage
-import com.d4rk.android.libs.apptoolkit.app.oboarding.ui.components.pages.CrashlyticsOnboardingPageTab
-import com.d4rk.android.libs.apptoolkit.app.oboarding.ui.components.pages.FinalOnboardingPageTab
-import com.d4rk.android.libs.apptoolkit.app.oboarding.ui.components.pages.ThemeOnboardingPageTab
-import com.d4rk.android.libs.apptoolkit.app.oboarding.utils.interfaces.providers.OnboardingProvider
+import com.d4rk.android.libs.apptoolkit.app.onboarding.domain.data.model.ui.OnboardingPage
+import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.components.pages.CrashlyticsOnboardingPageTab
+import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.components.pages.FinalOnboardingPageTab
+import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.components.pages.ThemeOnboardingPageTab
+import com.d4rk.android.libs.apptoolkit.app.onboarding.utils.interfaces.providers.OnboardingProvider
 import com.d4rk.lowbrightness.R
 import com.d4rk.lowbrightness.app.main.ui.MainActivity
 import com.d4rk.lowbrightness.app.onboarding.ui.AccessibilityDisclosurePage
@@ -73,5 +74,8 @@ class AppOnboardingProvider : OnboardingProvider {
 
     override fun onOnboardingFinished(context: Context) {
         context.startActivity(Intent(context, MainActivity::class.java))
+        if (context is Activity) {
+            context.finish()
+        }
     }
 }

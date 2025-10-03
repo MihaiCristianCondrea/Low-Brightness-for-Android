@@ -9,18 +9,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.d4rk.android.libs.apptoolkit.app.main.utils.InAppUpdateHelper
 import com.d4rk.android.libs.apptoolkit.app.startup.ui.StartupActivity
 import com.d4rk.android.libs.apptoolkit.app.theme.style.AppTheme
+import com.d4rk.android.libs.apptoolkit.core.di.DispatcherProvider
 import com.d4rk.android.libs.apptoolkit.core.utils.helpers.ConsentFormHelper
 import com.d4rk.android.libs.apptoolkit.core.utils.helpers.ConsentManagerHelper
 import com.d4rk.android.libs.apptoolkit.core.utils.helpers.IntentsHelper
@@ -39,8 +36,13 @@ import com.google.android.ump.ConsentInformation
 import com.google.android.ump.UserMessagingPlatform
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val dataStore : DataStore by inject()
+    private val dispatchers: DispatcherProvider by inject()
     private lateinit var updateResultLauncher : ActivityResultLauncher<IntentSenderRequest>
     private lateinit var viewModel : MainViewModel
     private var keepSplashVisible : Boolean = true
@@ -91,12 +94,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleStartup() {
         lifecycleScope.launch {
-            val isFirstLaunch : Boolean = dataStore.startup.first()
+            val isFirstLaunch: Boolean = withContext(dispatchers.io) {
+                dataStore.startup.first()
+            }
             keepSplashVisible = false
             if (isFirstLaunch) {
                 startStartupActivity()
-            }
-            else {
+            } else {
                 setMainActivityContent()
             }
         }
@@ -110,18 +114,16 @@ class MainActivity : AppCompatActivity() {
     private fun setMainActivityContent() {
         setContent {
             AppTheme {
-                Surface(modifier = Modifier.fillMaxSize() , color = MaterialTheme.colorScheme.background) {
-                    MainScreen()
-                    doIntentAction(intent?.action)
-                    if (showAccessibilityDialog) {
-                        ShowAccessibilityDisclosure(
-                            onDismissRequest = { showAccessibilityDialog = false },
-                            onContinue = {
-                                showAccessibilityDialog = false
-                                startForResult.launch(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-                            }
-                        )
-                    }
+                MainScreen()
+                doIntentAction(intent?.action)
+                if (showAccessibilityDialog) {
+                    ShowAccessibilityDisclosure(
+                        onDismissRequest = { showAccessibilityDialog = false },
+                        onContinue = {
+                            showAccessibilityDialog = false
+                            startForResult.launch(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+                        }
+                    )
                 }
             }
         }
@@ -158,31 +160,46 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkUserConsent() {
-        val consentInfo: ConsentInformation = UserMessagingPlatform.getConsentInformation(this)
-        ConsentFormHelper.showConsentFormIfRequired(activity = this , consentInfo = consentInfo)
+        lifecycleScope.launch {
+            val consentInfo: ConsentInformation = withContext(dispatchers.io) {
+                UserMessagingPlatform.getConsentInformation(this@MainActivity)
+            }
+            ConsentFormHelper.showConsentFormIfRequired(
+                activity = this@MainActivity,
+                consentInfo = consentInfo
+            )
+        }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun checkInAppReview() {
         lifecycleScope.launch {
-            val sessionCount: Int = dataStore.sessionCount.first()
-            val hasPrompted: Boolean = dataStore.hasPromptedReview.first()
+            val (sessionCount: Int, hasPrompted: Boolean) = coroutineScope {
+                val sessionCountDeferred = async(dispatchers.io) { dataStore.sessionCount.first() }
+                val hasPromptedDeferred = async(dispatchers.io) { dataStore.hasPromptedReview.first() }
+                awaitAll(sessionCountDeferred, hasPromptedDeferred)
+                sessionCountDeferred.getCompleted() to hasPromptedDeferred.getCompleted()
+            }
             ReviewHelper.launchInAppReviewIfEligible(
                 activity = this@MainActivity,
                 sessionCount = sessionCount,
-                hasPromptedBefore = hasPrompted
+                hasPromptedBefore = hasPrompted,
+                scope = this
             ) {
-                lifecycleScope.launch { dataStore.setHasPromptedReview(true) }
+                launch(dispatchers.io) { dataStore.setHasPromptedReview(value = true) }
             }
-            dataStore.incrementSessionCount()
+            withContext(dispatchers.io) { dataStore.incrementSessionCount() }
         }
     }
 
     private fun checkForUpdates() {
         lifecycleScope.launch {
-            InAppUpdateHelper.performUpdate(
-                appUpdateManager = AppUpdateManagerFactory.create(this@MainActivity),
-                updateResultLauncher = updateResultLauncher,
-            )
+            withContext(dispatchers.io) {
+                InAppUpdateHelper.performUpdate(
+                    appUpdateManager = AppUpdateManagerFactory.create(this@MainActivity),
+                    updateResultLauncher = updateResultLauncher,
+                )
+            }
         }
     }
 }
