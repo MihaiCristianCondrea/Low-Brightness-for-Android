@@ -3,7 +3,6 @@ package com.d4rk.lowbrightness.app.main.ui.components.navigation
 import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -20,7 +19,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AppNavigationHost(
-    navController : NavHostController , snackbarHostState : SnackbarHostState , onFabVisibilityChanged : (Boolean) -> Unit , paddingValues : PaddingValues
+    navController : NavHostController , paddingValues : PaddingValues
 ) {
     NavigationHost(
         navController = navController , startDestination = NavigationRoutes.ROUT_BRIGHTNESS

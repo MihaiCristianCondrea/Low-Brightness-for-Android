@@ -29,6 +29,7 @@ class LowBrightness : BaseCoreManager(), DefaultLifecycleObserver {
     override fun onCreate() {
         initializeKoin(context = this)
         super<BaseCoreManager>.onCreate()
+        appContext = this
         registerActivityLifecycleCallbacks(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(observer = this)
     }

@@ -16,8 +16,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -71,14 +69,8 @@ fun MainScreen() {
 fun MainScaffoldContent(drawerState: DrawerState) {
     val scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val snackBarHostState: SnackbarHostState = remember { SnackbarHostState() }
-    val isFabExtended: MutableState<Boolean> = remember { mutableStateOf(value = true) }
-    val isFabVisible: MutableState<Boolean> = remember { mutableStateOf(value = false) }
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
     val navController: NavHostController = rememberNavController()
-
-    LaunchedEffect(key1 = scrollBehavior.state.contentOffset) {
-        isFabExtended.value = scrollBehavior.state.contentOffset >= 0f
-    }
 
     Scaffold(
         modifier = Modifier
@@ -94,8 +86,6 @@ fun MainScaffoldContent(drawerState: DrawerState) {
         }) { paddingValues ->
         AppNavigationHost(
             navController = navController,
-            snackbarHostState = snackBarHostState,
-            onFabVisibilityChanged = { isFabVisible.value = it },
             paddingValues = paddingValues
         )
     }
