@@ -50,6 +50,11 @@
     <string name="alert_window_permission">在其他應用程式上層顯示</string>
     <string name="post_notification_permission">通知</string>
     <string name="night_screen_is_running">夜間模式已啟動…</string>
+    <string name="promoted_app_title">推薦應用程式</string>
+    <string name="promoted_app_install">安裝</string>
+    <string name="promoted_app_icon_description">%s 的圖示</string>
+    <string name="promoted_app_recommendation_icon_description">推薦</string>
+    <string name="promoted_app_install_icon_description">安裝推薦的應用程式</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">亮度</string>

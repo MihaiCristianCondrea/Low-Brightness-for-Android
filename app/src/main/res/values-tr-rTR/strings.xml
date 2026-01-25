@@ -50,6 +50,11 @@
     <string name="alert_window_permission">відображення поверх інших вікон</string>
     <string name="post_notification_permission">надсилання сповіщень</string>
     <string name="night_screen_is_running">Нічний режим активовано…</string>
+    <string name="promoted_app_title">Önerilen uygulama</string>
+    <string name="promoted_app_install">Yükle</string>
+    <string name="promoted_app_icon_description">%s için simge</string>
+    <string name="promoted_app_recommendation_icon_description">Öneri</string>
+    <string name="promoted_app_install_icon_description">Önerilen uygulamayı yükle</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Яскравість</string>

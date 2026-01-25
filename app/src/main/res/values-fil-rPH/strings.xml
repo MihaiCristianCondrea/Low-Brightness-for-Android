@@ -50,6 +50,11 @@
     <string name="alert_window_permission">alert window</string>
     <string name="post_notification_permission">mag-post ng notipikasyon</string>
     <string name="night_screen_is_running">Ang Night Screen ay aktibo…</string>
+    <string name="promoted_app_title">Inirerekomendang app</string>
+    <string name="promoted_app_install">I-install</string>
+    <string name="promoted_app_icon_description">Icon para sa %s</string>
+    <string name="promoted_app_recommendation_icon_description">Rekomendasyon</string>
+    <string name="promoted_app_install_icon_description">I-install ang inirerekomendang app</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Liwanag</string>

@@ -50,6 +50,11 @@
     <string name="alert_window_permission">ventana de alerta</string>
     <string name="post_notification_permission">enviar notificación</string>
     <string name="night_screen_is_running">La pantalla nocturna está activada…</string>
+    <string name="promoted_app_title">Aplicación recomendada</string>
+    <string name="promoted_app_install">Instalar</string>
+    <string name="promoted_app_icon_description">Ícono de %s</string>
+    <string name="promoted_app_recommendation_icon_description">Recomendación</string>
+    <string name="promoted_app_install_icon_description">Instalar la aplicación recomendada</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Brillo</string>

@@ -50,6 +50,11 @@
     <string name="alert_window_permission">App-Überlagerung</string>
     <string name="post_notification_permission">Benachrichtigungen senden</string>
     <string name="night_screen_is_running">Nachtmodus ist aktiviert …</string>
+    <string name="promoted_app_title">Empfohlene App</string>
+    <string name="promoted_app_install">Installieren</string>
+    <string name="promoted_app_icon_description">Symbol für %s</string>
+    <string name="promoted_app_recommendation_icon_description">Empfehlung</string>
+    <string name="promoted_app_install_icon_description">Empfohlene App installieren</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Helligkeit</string>

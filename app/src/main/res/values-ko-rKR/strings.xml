@@ -50,6 +50,11 @@
     <string name="alert_window_permission">다른 앱 위에 표시</string>
     <string name="post_notification_permission">알림</string>
     <string name="night_screen_is_running">야간 모드가 활성화되었습니다…</string>
+    <string name="promoted_app_title">추천 앱</string>
+    <string name="promoted_app_install">설치</string>
+    <string name="promoted_app_icon_description">%s 아이콘</string>
+    <string name="promoted_app_recommendation_icon_description">추천</string>
+    <string name="promoted_app_install_icon_description">추천 앱 설치</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">밝기</string>

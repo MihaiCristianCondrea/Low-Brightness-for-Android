@@ -50,6 +50,11 @@
     <string name="alert_window_permission">الرٹ ونڈو</string>
     <string name="post_notification_permission">اطلاع بھیجنا</string>
     <string name="night_screen_is_running">نائٹ اسکرین فعال ہے…</string>
+    <string name="promoted_app_title">تجویز کردہ ایپ</string>
+    <string name="promoted_app_install">انسٹال کریں</string>
+    <string name="promoted_app_icon_description">%s کے لیے آئیکن</string>
+    <string name="promoted_app_recommendation_icon_description">تجویز</string>
+    <string name="promoted_app_install_icon_description">تجویز کردہ ایپ انسٹال کریں</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">چمک</string>

@@ -50,6 +50,11 @@
     <string name="alert_window_permission">jendela peringatan</string>
     <string name="post_notification_permission">kirim notifikasi</string>
     <string name="night_screen_is_running">Layar Malam diaktifkan…</string>
+    <string name="promoted_app_title">Aplikasi rekomendasi</string>
+    <string name="promoted_app_install">Instal</string>
+    <string name="promoted_app_icon_description">Ikon untuk %s</string>
+    <string name="promoted_app_recommendation_icon_description">Rekomendasi</string>
+    <string name="promoted_app_install_icon_description">Instal aplikasi rekomendasi</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Kecerahan</string>

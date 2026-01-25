@@ -50,6 +50,11 @@
     <string name="alert_window_permission">hiển thị trên các ứng dụng khác</string>
     <string name="post_notification_permission">gửi thông báo</string>
     <string name="night_screen_is_running">Chế độ ban đêm đang được kích hoạt…</string>
+    <string name="promoted_app_title">Ứng dụng được đề xuất</string>
+    <string name="promoted_app_install">Cài đặt</string>
+    <string name="promoted_app_icon_description">Biểu tượng cho %s</string>
+    <string name="promoted_app_recommendation_icon_description">Đề xuất</string>
+    <string name="promoted_app_install_icon_description">Cài đặt ứng dụng được đề xuất</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Độ sáng</string>

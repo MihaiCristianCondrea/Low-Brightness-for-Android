@@ -50,6 +50,11 @@
     <string name="alert_window_permission">наложение поверх других окон</string>
     <string name="post_notification_permission">отправку уведомлений</string>
     <string name="night_screen_is_running">Ночной режим активирован…</string>
+    <string name="promoted_app_title">Рекомендуемое приложение</string>
+    <string name="promoted_app_install">Установить</string>
+    <string name="promoted_app_icon_description">Значок для %s</string>
+    <string name="promoted_app_recommendation_icon_description">Рекомендация</string>
+    <string name="promoted_app_install_icon_description">Установить рекомендуемое приложение</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Яркость</string>
