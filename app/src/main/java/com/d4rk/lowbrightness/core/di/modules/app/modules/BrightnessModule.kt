@@ -7,18 +7,12 @@ import com.d4rk.lowbrightness.app.brightness.domain.usecases.GetPromotedAppUseCa
 import com.d4rk.lowbrightness.app.brightness.ui.BrightnessViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val brightnessModule: Module = module {
-    single { PromotedAppsRemoteDataSource() }
+    single<PromotedAppsRemoteDataSource> { PromotedAppsRemoteDataSource() }
     single<PromotedAppsRepository> { PromotedAppsRepositoryImpl(remoteDataSource = get()) }
-    single {
-        GetPromotedAppUseCase(
-            repository = get(),
-            developerAppsApiUrl = get(named("developer_apps_api_url")),
-        )
-    }
+    single<GetPromotedAppUseCase> { GetPromotedAppUseCase(repository = get()) }
     viewModel {
         BrightnessViewModel(
             getPromotedAppUseCase = get(),

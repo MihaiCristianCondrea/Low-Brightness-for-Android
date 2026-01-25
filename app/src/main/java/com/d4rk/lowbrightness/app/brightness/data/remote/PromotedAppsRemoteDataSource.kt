@@ -6,7 +6,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class PromotedAppsRemoteDataSource {
-    suspend fun fetchPromotedApps(url: String): List<PromotedApp> {
+    fun fetchPromotedApps(url: String): List<PromotedApp> {
         val connection = (URL(url).openConnection() as HttpURLConnection).apply {
             connectTimeout = 10_000
             readTimeout = 10_000

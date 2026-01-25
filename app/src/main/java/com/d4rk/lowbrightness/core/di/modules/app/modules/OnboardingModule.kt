@@ -17,8 +17,8 @@ val onboardingModule: Module = module {
     single<OnboardingProvider> { AppOnboardingProvider() }
     single<OnboardingPreferencesDataSource> { get<CommonDataStore>() }
     single<OnboardingRepository> { OnboardingRepositoryImpl(dataStore = get()) }
-    single { ObserveOnboardingCompletionUseCase(repository = get()) }
-    single { CompleteOnboardingUseCase(repository = get()) }
+    single<ObserveOnboardingCompletionUseCase> { ObserveOnboardingCompletionUseCase(repository = get()) }
+    single<CompleteOnboardingUseCase> { CompleteOnboardingUseCase(repository = get()) }
     viewModel {
         OnboardingViewModel(
             observeOnboardingCompletionUseCase = get(),
