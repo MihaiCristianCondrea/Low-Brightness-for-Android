@@ -1,7 +1,9 @@
 package com.d4rk.lowbrightness.app.brightness.ui.views.cards
 
 import android.content.Intent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Shop
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -31,80 +32,86 @@ import com.d4rk.lowbrightness.R
 import com.d4rk.lowbrightness.app.brightness.domain.model.PromotedApp
 
 @Composable
-fun PromotedAppCard(app: PromotedApp, modifier: Modifier = Modifier) {
+fun PromotedAppCard(
+    app: PromotedApp,
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
+
     Card(
+        shape = MaterialTheme.shapes.extraLarge,
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = SizeConstants.SmallSize + SizeConstants.ExtraTinySize),
-        shape = MaterialTheme.shapes.extraLarge,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(all = SizeConstants.LargeSize),
-            verticalArrangement = Arrangement.spacedBy(SizeConstants.MediumSize)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(SizeConstants.SmallSize)
+        Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(SizeConstants.MediumSize),
+                contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.Star,
-                    contentDescription = stringResource(
-                        id = R.string.promoted_app_recommendation_icon_description
-                    ),
-                    tint = MaterialTheme.colorScheme.primary,
-                )
                 Text(
                     text = stringResource(id = R.string.promoted_app_title),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(SizeConstants.MediumSize)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(SizeConstants.LargeSize),
+                verticalArrangement = Arrangement.spacedBy(SizeConstants.MediumSize),
             ) {
-                AsyncImage(
-                    model = app.iconLogo,
-                    contentDescription = stringResource(
-                        R.string.promoted_app_icon_description,
-                        app.name
-                    ),
-                    modifier = Modifier
-                        .size(size = 48.dp)
-                        .clip(CircleShape)
-                )
-                Text(
-                    text = app.name,
-                    modifier = Modifier.weight(1f),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium
-                )
-                OutlinedButton(
-                    onClick = {
-                        val url = "https://play.google.com/store/apps/details?id=${app.packageName}"
-                        val intent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        }
-                        context.startActivity(intent)
-                    }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(SizeConstants.MediumSize),
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Shop,
+                    AsyncImage(
+                        model = app.iconLogo,
                         contentDescription = stringResource(
-                            id = R.string.promoted_app_install_icon_description
+                            id = R.string.promoted_app_icon_description,
+                            app.name
                         ),
-                        modifier = Modifier.size(SizeConstants.ButtonIconSize)
+                        modifier = Modifier
+                            .size(48.dp)
+                            .clip(CircleShape)
                     )
+
                     Text(
-                        text = stringResource(id = R.string.promoted_app_install),
-                        modifier = Modifier.padding(start = SizeConstants.ExtraSmallSize)
+                        text = app.name,
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
+
+                    OutlinedButton(
+                        onClick = {
+                            val url =
+                                "https://play.google.com/store/apps/details?id=${app.packageName}"
+                            val intent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }
+                            context.startActivity(intent)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Shop,
+                            contentDescription = stringResource(
+                                id = R.string.promoted_app_install_icon_description
+                            ),
+                            modifier = Modifier.size(SizeConstants.ButtonIconSize)
+                        )
+                        Text(
+                            text = stringResource(id = R.string.promoted_app_install),
+                            modifier = Modifier.padding(start = SizeConstants.ExtraSmallSize)
+                        )
+                    }
                 }
             }
         }

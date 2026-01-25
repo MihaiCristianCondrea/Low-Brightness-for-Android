@@ -1,4 +1,4 @@
-package com.d4rk.lowbrightness.app.brightness.ui.views
+package com.d4rk.lowbrightness.app.brightness.ui.views.cards
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,6 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import com.d4rk.android.libs.apptoolkit.core.ui.views.modifiers.bounceClick
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.ui.SizeConstants
 import com.d4rk.lowbrightness.R
+import com.d4rk.lowbrightness.app.brightness.ui.views.alphaRange
+import com.d4rk.lowbrightness.app.brightness.ui.views.screenAlpha
 
 @Composable
 fun IntensityCard() {

@@ -1,4 +1,4 @@
-package com.d4rk.lowbrightness.app.brightness.ui.views
+package com.d4rk.lowbrightness.app.brightness.ui.views.cards
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize

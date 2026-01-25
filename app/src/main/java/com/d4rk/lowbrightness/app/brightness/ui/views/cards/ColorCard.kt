@@ -1,4 +1,4 @@
-package com.d4rk.lowbrightness.app.brightness.ui.views
+package com.d4rk.lowbrightness.app.brightness.ui.views.cards
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,7 +27,9 @@ import androidx.compose.ui.text.font.FontWeight
 import com.d4rk.android.libs.apptoolkit.core.ui.views.modifiers.bounceClick
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.ui.SizeConstants
 import com.d4rk.lowbrightness.R
+import com.d4rk.lowbrightness.app.brightness.ui.views.calculatedColor
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.ColorDialog
+import com.d4rk.lowbrightness.app.brightness.ui.views.screenColor
 
 @Composable
 fun ColorCard() {

@@ -31,11 +31,11 @@ import com.d4rk.lowbrightness.app.brightness.domain.ext.plus
 import com.d4rk.lowbrightness.app.brightness.domain.ext.requestAllPermissions
 import com.d4rk.lowbrightness.app.brightness.domain.services.isAccessibilityServiceRunning
 import com.d4rk.lowbrightness.app.brightness.ui.state.BrightnessUiState
-import com.d4rk.lowbrightness.app.brightness.ui.views.ActionsCard
+import com.d4rk.lowbrightness.app.brightness.ui.views.cards.ActionsCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.BottomImage
-import com.d4rk.lowbrightness.app.brightness.ui.views.ColorCard
-import com.d4rk.lowbrightness.app.brightness.ui.views.IntensityCard
-import com.d4rk.lowbrightness.app.brightness.ui.views.ScheduleCard
+import com.d4rk.lowbrightness.app.brightness.ui.views.cards.ColorCard
+import com.d4rk.lowbrightness.app.brightness.ui.views.cards.IntensityCard
+import com.d4rk.lowbrightness.app.brightness.ui.views.cards.ScheduleCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.cards.PromotedAppCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.ShowAccessibilityDisclosure
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.requestAllPermissionsWithAccessibilityAndShow
