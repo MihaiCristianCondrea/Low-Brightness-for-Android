@@ -98,7 +98,7 @@ fun ScheduleCard() {
             ) {
                 Text(
                     text = stringResource(id = R.string.schedule),
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )

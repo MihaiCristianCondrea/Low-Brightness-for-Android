@@ -1,5 +1,6 @@
 package com.d4rk.lowbrightness.app.brightness.ui
 
+import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -11,14 +12,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.d4rk.android.libs.apptoolkit.core.ui.model.ads.AdsConfig
 import com.d4rk.android.libs.apptoolkit.core.ui.views.ads.AdBanner
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.ui.SizeConstants
@@ -38,26 +38,34 @@ import com.d4rk.lowbrightness.ui.component.showToast
 import org.koin.compose.koinInject
 import org.koin.core.qualifier.named
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BrightnessScreen(paddingValues: PaddingValues) {
     val context = LocalContext.current
+    val currentContext = rememberUpdatedState(context)
+
     val mediumRectangleAdConfig: AdsConfig =
-        koinInject(qualifier = named(name = "banner_medium_rectangle"))
-    val largeBannerAdConfig: AdsConfig = koinInject(qualifier = named(name = "large_banner"))
-    var showAccessibilityDialog by remember { mutableStateOf(value = false) }
-    var runAfterPermission by remember { mutableStateOf(value = false) }
+        koinInject(qualifier = named("banner_medium_rectangle"))
+    val largeBannerAdConfig: AdsConfig =
+        koinInject(qualifier = named("large_banner"))
+
+    val noAccessibilityPermissionText =
+        rememberUpdatedState(stringResource(R.string.no_accessibility_permission))
+
+    val showAccessibilityDialog = remember { mutableStateOf(false) }
+    val runAfterPermission = remember { mutableStateOf(false) }
+
     val startForResult = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
+        val context: Context = currentContext.value
         if (isAccessibilityServiceRunning(context)) {
-            if (runAfterPermission) {
+            if (runAfterPermission.value) {
                 requestAllPermissionsWithAccessibilityAndShow(context)
             } else {
                 context.activity.requestAllPermissions()
             }
         } else {
-            context.getString(R.string.no_accessibility_permission).showToast() // FIXME: Querying resource values using LocalContext.current
+            noAccessibilityPermissionText.value.showToast()
         }
     }
     Column(
@@ -65,10 +73,8 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(
-                PaddingValues(
-                    horizontal = SizeConstants.LargeIncreasedSize,
-                ) + paddingValues
-            ) ,
+                PaddingValues(horizontal = SizeConstants.LargeIncreasedSize) + paddingValues
+            ),
     ) {
         IntensityCard()
         ColorCard()
@@ -84,16 +90,16 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
                 if (isAccessibilityServiceRunning(context)) {
                     requestAllPermissionsWithAccessibilityAndShow(context)
                 } else {
-                    runAfterPermission = true
-                    showAccessibilityDialog = true
+                    runAfterPermission.value = true
+                    showAccessibilityDialog.value = true
                 }
             },
             onRequestPermissionsClick = {
                 if (isAccessibilityServiceRunning(context)) {
                     context.activity.requestAllPermissions()
                 } else {
-                    runAfterPermission = false
-                    showAccessibilityDialog = true
+                    runAfterPermission.value = false
+                    showAccessibilityDialog.value = true
                 }
             }
         )
@@ -107,15 +113,16 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
         AdBanner(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = SizeConstants.MediumSize), adsConfig = largeBannerAdConfig
+                .padding(vertical = SizeConstants.MediumSize),
+            adsConfig = largeBannerAdConfig
         )
     }
 
-    if (showAccessibilityDialog) {
+    if (showAccessibilityDialog.value) {
         ShowAccessibilityDisclosure(
-            onDismissRequest = { showAccessibilityDialog = false },
+            onDismissRequest = { showAccessibilityDialog.value = false },
             onContinue = {
-                showAccessibilityDialog = false
+                showAccessibilityDialog.value = false
                 startForResult.launch(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
             }
         )

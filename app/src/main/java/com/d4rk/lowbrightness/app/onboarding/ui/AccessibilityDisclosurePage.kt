@@ -48,7 +48,7 @@ fun AccessibilityDisclosurePage() {
         Text(
             text = stringResource(id = R.string.onboarding_accessibility_title),
             style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center
         )
 
@@ -65,7 +65,7 @@ fun AccessibilityDisclosurePage() {
         Text(
             text = stringResource(id = R.string.onboarding_accessibility_what_it_means),
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             modifier = Modifier.align(Alignment.Start)
         )
 

@@ -41,7 +41,7 @@ fun ActionsCard(
             ) {
                 Text(
                     text = stringResource(id = R.string.actions),
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )

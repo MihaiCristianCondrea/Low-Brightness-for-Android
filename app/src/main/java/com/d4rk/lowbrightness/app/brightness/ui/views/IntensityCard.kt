@@ -40,7 +40,7 @@ fun IntensityCard() {
             ) {
                 Text(
                     text = stringResource(id = R.string.intensity),
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )

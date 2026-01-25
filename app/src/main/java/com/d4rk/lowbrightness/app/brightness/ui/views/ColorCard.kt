@@ -48,7 +48,7 @@ fun ColorCard() {
             ) {
                 Text(
                     text = stringResource(id = R.string.customize_overlay_color),
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )

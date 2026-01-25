@@ -19,9 +19,3 @@ object NavigationRoutes {
     val topLevelRoutes: ImmutableSet<AppNavKey> =
         persistentSetOf(BrightnessRoute)
 }
-
-fun String.toNavKeyOrDefault(): AppNavKey = // FIXME: Function "toNavKeyOrDefault" is never used
-    when (this) {
-        NavigationRoutes.ROUTE_BRIGHTNESS -> BrightnessRoute
-        else -> BrightnessRoute
-    }
