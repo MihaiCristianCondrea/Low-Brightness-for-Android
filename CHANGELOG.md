@@ -1,3 +1,12 @@
+# Version 5.1.0:
+
+- **New**: Added new color palettes for customization
+- **Minor**: Improved overall app performance
+- **Minor**: Refined the UI for better consistency
+- **Minor**: Reduced the app size
+- **Minor**: The app is now available only on devices running Android 8.0 (Oreo) or higher
+- **Patch**: Fixed various bugs and stability issues
+
 # Version 5.0.3:
 
 - **New**: Added changelog dialog.

@@ -15,7 +15,7 @@ import com.d4rk.android.libs.apptoolkit.app.settings.settings.domain.model.Setti
 import com.d4rk.android.libs.apptoolkit.app.settings.settings.domain.model.SettingsPreference
 import com.d4rk.android.libs.apptoolkit.app.settings.utils.constants.SettingsContent
 import com.d4rk.android.libs.apptoolkit.app.settings.utils.interfaces.SettingsProvider
-import com.d4rk.android.libs.apptoolkit.core.utils.helpers.IntentsHelper
+import com.d4rk.android.libs.apptoolkit.core.utils.extensions.context.openAppNotificationSettings
 import com.d4rk.lowbrightness.app.settings.settings.utils.constants.SettingsConstants
 
 class AppSettingsProvider : SettingsProvider {
@@ -29,7 +29,17 @@ class AppSettingsProvider : SettingsProvider {
                             icon = Icons.Outlined.Notifications,
                             title = context.getString(R.string.notifications),
                             summary = context.getString(R.string.summary_preference_settings_notifications),
-                            action = { IntentsHelper.openAppNotificationSettings(context = context) }),
+                            action = {
+                                val opened = context.openAppNotificationSettings()
+                                if (!opened) {
+                                    GeneralSettingsActivity.start(
+                                        context = context,
+                                        title = context.getString(R.string.security_and_privacy),
+                                        contentKey = SettingsContent.SECURITY_AND_PRIVACY,
+                                    )
+                                }
+                            }
+                        ),
                         SettingsPreference(
                             key = SettingsContent.DISPLAY,
                             icon = Icons.Outlined.Palette,

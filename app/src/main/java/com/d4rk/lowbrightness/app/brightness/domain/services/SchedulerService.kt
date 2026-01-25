@@ -6,9 +6,9 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.d4rk.lowbrightness.app.brightness.domain.ext.sharedPreferences
-import com.d4rk.lowbrightness.app.brightness.ui.components.closeNightScreen
-import com.d4rk.lowbrightness.app.brightness.ui.components.runAsScheduled
-import com.d4rk.lowbrightness.app.brightness.ui.components.showNightScreen
+import com.d4rk.lowbrightness.app.brightness.ui.views.closeNightScreen
+import com.d4rk.lowbrightness.app.brightness.ui.views.runAsScheduled
+import com.d4rk.lowbrightness.app.brightness.ui.views.showNightScreen
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 

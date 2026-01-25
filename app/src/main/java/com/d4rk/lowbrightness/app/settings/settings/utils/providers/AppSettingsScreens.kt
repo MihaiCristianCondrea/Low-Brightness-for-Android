@@ -6,6 +6,8 @@ import com.d4rk.lowbrightness.app.settings.brightness.ui.BrightnessSettingsList
 import com.d4rk.lowbrightness.app.settings.settings.utils.constants.SettingsConstants
 
 class AppSettingsScreens {
-    val customScreens : Map<String , @Composable (PaddingValues) -> Unit> = mapOf(
-        SettingsConstants.KEY_SETTINGS_BRIGHTNESS to { paddingValues -> BrightnessSettingsList(paddingValues) })
+    val customScreens: Map<String, @Composable (PaddingValues) -> Unit> = mapOf(
+        SettingsConstants.KEY_SETTINGS_BRIGHTNESS to { paddingValues ->
+            BrightnessSettingsList(paddingValues)
+        })
 }

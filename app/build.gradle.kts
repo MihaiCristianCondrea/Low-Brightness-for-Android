@@ -1,12 +1,15 @@
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 plugins {
     alias(notation = libs.plugins.android.application)
-    alias(notation = libs.plugins.kotlin.android)
-    alias(notation = libs.plugins.kotlin.compose)
+    alias(notation = libs.plugins.compose.compiler)
+    alias(notation = libs.plugins.about.libraries)
+    alias(notation = libs.plugins.mannodermaus)
     alias(notation = libs.plugins.googlePlayServices)
     alias(notation = libs.plugins.googleFirebase)
+    alias(notation = libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -15,14 +18,39 @@ android {
 
     defaultConfig {
         applicationId = "com.d4rk.lowbrightness"
-        minSdk = 23
+        minSdk = 26
         targetSdk = 36
-        versionCode = 51
-        versionName = "5.0.3"
+        versionCode = 52
+        versionName = "5.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         @Suppress("UnstableApiUsage")
         androidResources.localeFilters += listOf(
-            "ar-rEG" , "bg-rBG" , "bn-rBD" , "de-rDE" , "en" , "es-rGQ" , "es-rMX" , "fil-rPH" , "fr-rFR" , "hi-rIN" , "hu-rHU" , "in-rID" , "it-rIT" , "ja-rJP" , "ko-rKR" , "pl-rPL" , "pt-rBR" , "ro-rRO" , "ru-rRU" , "sv-rSE" , "th-rTH" , "tr-rTR" , "uk-rUA" , "ur-rPK" , "vi-rVN" , "zh-rTW"
+            "ar-rEG",
+            "bg-rBG",
+            "bn-rBD",
+            "de-rDE",
+            "en",
+            "es-rGQ",
+            "es-rMX",
+            "fil-rPH",
+            "fr-rFR",
+            "hi-rIN",
+            "hu-rHU",
+            "in-rID",
+            "it-rIT",
+            "ja-rJP",
+            "ko-rKR",
+            "pl-rPL",
+            "pt-rBR",
+            "ro-rRO",
+            "ru-rRU",
+            "sv-rSE",
+            "th-rTH",
+            "tr-rTR",
+            "uk-rUA",
+            "ur-rPK",
+            "vi-rVN",
+            "zh-rTW"
         )
         vectorDrawables {
             useSupportLibrary = true
@@ -54,8 +82,7 @@ android {
                 keyAlias = signingProps["KEY_ALIAS"].toString()
                 keyPassword = signingProps["KEY_PASSWORD"].toString()
             }
-        }
-        else {
+        } else {
             android.buildTypes.getByName("release").signingConfig = null
         }
     }
@@ -69,18 +96,26 @@ android {
                 null
             }
             isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = true
+            }
         }
         debug {
             isDebuggable = true
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 
     buildTypes.forEach { buildType ->
         with(receiver = buildType) {
             multiDexEnabled = true
-            isMinifyEnabled = false
-            isShrinkResources = false
-            proguardFiles(getDefaultProguardFile(name = "proguard-android-optimize.txt") , "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile(name = "proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -106,21 +141,35 @@ android {
             excludes.add("META-INF/io.netty.versions.properties")
         }
     }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+            it.jvmArgs("-XX:+EnableDynamicAgentLoading")
+        }
+    }
 }
 
 dependencies {
 
     // App Core
-    implementation(dependencyNotation = "com.github.MihaiCristianCondrea:App-Toolkit-for-Android:1.1.3") {
+    implementation(dependencyNotation = "com.github.MihaiCristianCondrea:App-Toolkit-for-Android:2.0.1") {
         isTransitive = true
     }
 
     implementation(dependencyNotation = libs.preference.ktx)
     implementation(dependencyNotation = libs.materialdatetimepicker)
-    implementation(dependencyNotation = libs.spectrum)
     implementation(dependencyNotation = libs.compose.material3.window.size)
     implementation(dependencyNotation = libs.accompanist.navigation.animation)
     implementation(dependencyNotation = libs.profileinstaller)
     implementation(dependencyNotation = libs.compose.color.picker)
     implementation(dependencyNotation = libs.compose.color.picker.android)
+
+    // Unit Tests
+    testImplementation(dependencyNotation = libs.bundles.unitTest)
+    testRuntimeOnly(dependencyNotation = libs.bundles.unitTestRuntime)
+
+    // Instrumentation Tests
+    androidTestImplementation(dependencyNotation = libs.bundles.instrumentationTest)
+    debugImplementation(dependencyNotation = libs.androidx.ui.test.manifest)
 }

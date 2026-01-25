@@ -1,21 +1,20 @@
 package com.d4rk.lowbrightness.app.settings.settings.utils.providers
 
-import android.content.Context
 import com.d4rk.android.libs.apptoolkit.app.settings.utils.providers.BuildInfoProvider
 import com.d4rk.lowbrightness.BuildConfig
 
-class AppBuildInfoProvider(val context : Context) : BuildInfoProvider {
+class AppBuildInfoProvider : BuildInfoProvider {
 
-    override val packageName : String get() = context.packageName
+    override val packageName: String get() = BuildConfig.APPLICATION_ID
 
-    override val appVersion : String get() = BuildConfig.VERSION_NAME
+    override val appVersion: String get() = BuildConfig.VERSION_NAME
 
-    override val appVersionCode : Int
+    override val appVersionCode: Int
         get() {
             return BuildConfig.VERSION_CODE
         }
 
-    override val isDebugBuild : Boolean
+    override val isDebugBuild: Boolean
         get() {
             return BuildConfig.DEBUG
         }

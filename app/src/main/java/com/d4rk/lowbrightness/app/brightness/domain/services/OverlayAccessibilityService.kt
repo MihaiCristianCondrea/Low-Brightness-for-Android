@@ -9,8 +9,8 @@ import android.view.accessibility.AccessibilityEvent
 import com.d4rk.lowbrightness.BuildConfig
 import com.d4rk.lowbrightness.app.brightness.domain.util.screenHeight
 import com.d4rk.lowbrightness.app.brightness.domain.util.screenWidth
-import com.d4rk.lowbrightness.app.brightness.ui.components.closeNightScreen
-import com.d4rk.lowbrightness.app.brightness.ui.components.layerView
+import com.d4rk.lowbrightness.app.brightness.ui.views.closeNightScreen
+import com.d4rk.lowbrightness.app.brightness.ui.views.layerView
 
 class OverlayAccessibilityService : AccessibilityService() {
     override fun onInterrupt() {}

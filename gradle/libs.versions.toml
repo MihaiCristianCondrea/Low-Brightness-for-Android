@@ -1,30 +1,101 @@
 [versions]
-agp = "8.13.2"
+agp = "9.0.0"
 kotlin = "2.3.0"
+aboutlibraries = "14.0.0-b02"
 google-services = "4.4.4"
 google-firebase-crashlytics = "3.0.6"
 materialdatetimepicker = "4.2.3"
-spectrum = "0.7.1"
 preferenceKtx = "1.2.1"
 md3 = "1.4.0"
 accompanist = "0.36.0"
 profileinstaller = "1.4.1"
 colorPicker = "0.7.0"
 
+# Testing
+ktorBom = "3.4.0"
+koin = "4.1.1"
+junittest = "3.7.0"
+mannodermaus = "2.0.1"
+mockk = "1.14.7"
+jupiter = "6.0.2"
+testCorutines = "1.10.2"
+testTurbine = "1.2.1"
+truth = "1.7.0"
+testManifestTestJunit4Android = "1.10.1"
+slf4j = "2.0.17"
+robolectric = "4.16.1"
+junit4 = "4.13.2"
+
 [libraries]
 materialdatetimepicker = { module = "com.wdullaer:materialdatetimepicker", version.ref = "materialdatetimepicker" }
 preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
-spectrum = { module = "com.thebluealliance:spectrum", version.ref = "spectrum" }
 compose-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "md3" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
 profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileinstaller" }
 compose-color-picker = { module = "com.godaddy.android.colorpicker:compose-color-picker", version.ref = "colorPicker" }
 compose-color-picker-android = { module = "com.godaddy.android.colorpicker:compose-color-picker-android", version.ref = "colorPicker" }
 
+# --- TESTING ---
+# Unit Tests (test folder)
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorBom" }
+test-koin-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin" }
+jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jupiter" }
+jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "jupiter" }
+jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "jupiter" }
+mockk-api = { module = "io.mockk:mockk", version.ref = "mockk" }
+test-kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "testCorutines" }
+test-turbine = { module = "app.cash.turbine:turbine", version.ref = "testTurbine" }
+androidx-truth = { module = "androidx.test.ext:truth", version.ref = "truth" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+junit4 = { module = "junit:junit", version.ref = "junit4" }
+
+# Instrumentation Tests (androidTest folder)
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "junittest" }
+instrumentation-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "testManifestTestJunit4Android" }
+androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "testManifestTestJunit4Android" }
+
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+about-libraries = { id = "com.mikepenz.aboutlibraries.plugin.android", version.ref = "aboutlibraries" }
 googlePlayServices = { id = "com.google.gms.google-services", version.ref = "google-services" }
 googleFirebase = { id = "com.google.firebase.crashlytics", version.ref = "google-firebase-crashlytics" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+mannodermaus = { id = "de.mannodermaus.android-junit5", version.ref = "mannodermaus" }
+
+[bundles]
+
+# For local tests on the JVM (test sourceSet)
+unitTest = [
+    "jupiter-api",
+    "jupiter-params",
+    "mockk-api",
+    "test-kotlin-coroutines",
+    "test-turbine",
+    "test-koin-junit5",
+    "androidx-truth",
+    "ktor-client-mock",
+    "robolectric",
+    "junit4",
+    "slf4j-simple",
+]
+
+unitTestRuntime = ["jupiter-engine"]
+
+# For instrumentation tests on an Android device (androidTest sourceSet)
+instrumentationTest = [
+    "jupiter-api",
+    "jupiter-params",
+    "mockk-android",
+    "test-kotlin-coroutines",
+    "test-turbine",
+    "instrumentation-koin-compose",
+    "androidx-espresso-core",
+    "androidx-ui-test-junit4-android",
+    "androidx-truth",
+]

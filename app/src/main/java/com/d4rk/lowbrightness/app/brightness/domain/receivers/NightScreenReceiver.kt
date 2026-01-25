@@ -16,9 +16,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.d4rk.android.libs.apptoolkit.app.settings.general.ui.GeneralSettingsActivity
 import com.d4rk.lowbrightness.R
-import com.d4rk.lowbrightness.app.brightness.ui.components.closeDialog
-import com.d4rk.lowbrightness.app.brightness.ui.components.closeNightScreen
-import com.d4rk.lowbrightness.app.brightness.ui.components.showDialogAndNightScreen
+import com.d4rk.lowbrightness.app.brightness.ui.views.closeDialog
+import com.d4rk.lowbrightness.app.brightness.ui.views.closeNightScreen
+import com.d4rk.lowbrightness.app.brightness.ui.views.showDialogAndNightScreen
 import com.d4rk.lowbrightness.app.settings.settings.utils.constants.SettingsConstants
 import com.d4rk.lowbrightness.appContext
 

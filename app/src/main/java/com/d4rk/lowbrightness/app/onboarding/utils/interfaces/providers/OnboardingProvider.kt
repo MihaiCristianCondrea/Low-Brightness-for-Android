@@ -7,10 +7,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Brightness2
 import androidx.compose.material.icons.outlined.RemoveRedEye
 import androidx.compose.material.icons.outlined.SettingsBrightness
-import com.d4rk.android.libs.apptoolkit.app.onboarding.domain.data.model.ui.OnboardingPage
-import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.components.pages.CrashlyticsOnboardingPageTab
-import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.components.pages.FinalOnboardingPageTab
-import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.components.pages.ThemeOnboardingPageTab
+import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.model.OnboardingPage
+import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.views.pages.CrashlyticsOnboardingPageTab
+import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.views.pages.FinalOnboardingPageTab
+import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.views.pages.ThemeOnboardingPageTab
 import com.d4rk.android.libs.apptoolkit.app.onboarding.utils.interfaces.providers.OnboardingProvider
 import com.d4rk.lowbrightness.R
 import com.d4rk.lowbrightness.app.main.ui.MainActivity

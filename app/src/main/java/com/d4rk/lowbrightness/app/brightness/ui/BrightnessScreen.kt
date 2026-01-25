@@ -19,21 +19,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.d4rk.android.libs.apptoolkit.core.domain.model.ads.AdsConfig
-import com.d4rk.android.libs.apptoolkit.core.ui.components.ads.AdBanner
+import com.d4rk.android.libs.apptoolkit.core.ui.model.ads.AdsConfig
+import com.d4rk.android.libs.apptoolkit.core.ui.views.ads.AdBanner
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.ui.SizeConstants
 import com.d4rk.lowbrightness.R
 import com.d4rk.lowbrightness.app.brightness.domain.ext.activity
 import com.d4rk.lowbrightness.app.brightness.domain.ext.plus
 import com.d4rk.lowbrightness.app.brightness.domain.ext.requestAllPermissions
 import com.d4rk.lowbrightness.app.brightness.domain.services.isAccessibilityServiceRunning
-import com.d4rk.lowbrightness.app.brightness.ui.components.ActionsCard
-import com.d4rk.lowbrightness.app.brightness.ui.components.BottomImage
-import com.d4rk.lowbrightness.app.brightness.ui.components.ColorCard
-import com.d4rk.lowbrightness.app.brightness.ui.components.IntensityCard
-import com.d4rk.lowbrightness.app.brightness.ui.components.ScheduleCard
-import com.d4rk.lowbrightness.app.brightness.ui.components.dialogs.ShowAccessibilityDisclosure
-import com.d4rk.lowbrightness.app.brightness.ui.components.dialogs.requestAllPermissionsWithAccessibilityAndShow
+import com.d4rk.lowbrightness.app.brightness.ui.views.ActionsCard
+import com.d4rk.lowbrightness.app.brightness.ui.views.BottomImage
+import com.d4rk.lowbrightness.app.brightness.ui.views.ColorCard
+import com.d4rk.lowbrightness.app.brightness.ui.views.IntensityCard
+import com.d4rk.lowbrightness.app.brightness.ui.views.ScheduleCard
+import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.ShowAccessibilityDisclosure
+import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.requestAllPermissionsWithAccessibilityAndShow
 import com.d4rk.lowbrightness.ui.component.showToast
 import org.koin.compose.koinInject
 import org.koin.core.qualifier.named
@@ -57,7 +57,7 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
                 context.activity.requestAllPermissions()
             }
         } else {
-            context.getString(R.string.no_accessibility_permission).showToast()
+            context.getString(R.string.no_accessibility_permission).showToast() // FIXME: Querying resource values using LocalContext.current
         }
     }
     Column(

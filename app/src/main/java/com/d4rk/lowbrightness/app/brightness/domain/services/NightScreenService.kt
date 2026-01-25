@@ -9,9 +9,9 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import com.d4rk.lowbrightness.app.brightness.ui.components.closeNightScreen
-import com.d4rk.lowbrightness.app.brightness.ui.components.dialogs.requestAllPermissionsWithAccessibilityAndShow
-import com.d4rk.lowbrightness.app.brightness.ui.components.showNightScreenLayer
+import com.d4rk.lowbrightness.app.brightness.ui.views.closeNightScreen
+import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.requestAllPermissionsWithAccessibilityAndShow
+import com.d4rk.lowbrightness.app.brightness.ui.views.showNightScreenLayer
 
 @RequiresApi(Build.VERSION_CODES.N)
 class NightScreenService : TileService() {

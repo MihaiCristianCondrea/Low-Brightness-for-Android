@@ -16,26 +16,24 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.d4rk.android.libs.apptoolkit.app.main.utils.InAppUpdateHelper
 import com.d4rk.android.libs.apptoolkit.app.startup.ui.StartupActivity
-import com.d4rk.android.libs.apptoolkit.app.theme.style.AppTheme
+import com.d4rk.android.libs.apptoolkit.app.theme.ui.style.AppTheme
 import com.d4rk.android.libs.apptoolkit.core.di.DispatcherProvider
-import com.d4rk.android.libs.apptoolkit.core.utils.helpers.ConsentFormHelper
-import com.d4rk.android.libs.apptoolkit.core.utils.helpers.ConsentManagerHelper
-import com.d4rk.android.libs.apptoolkit.core.utils.helpers.IntentsHelper
-import com.d4rk.android.libs.apptoolkit.core.utils.helpers.ReviewHelper
+import com.d4rk.android.libs.apptoolkit.core.utils.extensions.context.openActivity
+import com.d4rk.android.libs.apptoolkit.core.utils.platform.ConsentFormHelper
+import com.d4rk.android.libs.apptoolkit.core.utils.platform.ConsentManagerHelper
+import com.d4rk.android.libs.apptoolkit.core.utils.platform.ReviewHelper
 import com.d4rk.lowbrightness.R
 import com.d4rk.lowbrightness.app.brightness.domain.ext.requestAllPermissionsAndShow
 import com.d4rk.lowbrightness.app.brightness.domain.ext.requestSystemAlertWindowPermission
 import com.d4rk.lowbrightness.app.brightness.domain.receivers.NightScreenReceiver
 import com.d4rk.lowbrightness.app.brightness.domain.services.isAccessibilityServiceRunning
-import com.d4rk.lowbrightness.app.brightness.ui.components.dialogs.ShowAccessibilityDisclosure
-import com.d4rk.lowbrightness.core.data.datastore.DataStore
+import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.ShowAccessibilityDisclosure
+import com.d4rk.lowbrightness.core.data.local.datastore.DataStore
 import com.d4rk.lowbrightness.ui.component.showToast
 import com.google.android.gms.ads.MobileAds
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.UserMessagingPlatform
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -44,8 +42,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 
 class MainActivity : AppCompatActivity() {
 
@@ -53,12 +49,23 @@ class MainActivity : AppCompatActivity() {
         const val REQUEST_PERMISSION_AND_SHOW_ACTION = "requestPermissionsAndShow"
     }
 
-    private val dataStore : DataStore by inject()
+    private val dataStore: DataStore by inject()
     private val dispatchers: DispatcherProvider by inject()
-    private lateinit var updateResultLauncher : ActivityResultLauncher<IntentSenderRequest>
-    private lateinit var viewModel : MainViewModel
-    private var keepSplashVisible : Boolean = true
-    private var showAccessibilityDialog by mutableStateOf(value = false)
+
+    private val updateResultLauncher: ActivityResultLauncher<IntentSenderRequest> =
+        registerForActivityResult(contract = ActivityResultContracts.StartIntentSenderForResult()) {}
+
+    private val accessibilitySettingsLauncher =
+        registerForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+            if (isAccessibilityServiceRunning(this)) {
+                requestAllPermissionsAndShow()
+            } else {
+                getString(R.string.no_accessibility_permission).showToast()
+            }
+        }
+
+    private var keepSplashVisible: Boolean = true
+    private var showAccessibilityDialog by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         splashScreen.setKeepOnScreenCondition { keepSplashVisible }
         enableEdgeToEdge()
         initializeDependencies()
-        handleStartup()
+        handleStartup(intentAction = intent?.action)
         checkInAppReview()
     }
 
@@ -82,32 +89,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeDependencies() {
-        CoroutineScope(context = Dispatchers.IO).launch {
-            MobileAds.initialize(this@MainActivity) {}
-            ConsentManagerHelper.applyInitialConsent(dataStore = dataStore)
+        lifecycleScope.launch {
+            coroutineScope {
+                val adsInitialization =
+                    async(dispatchers.default) { MobileAds.initialize(this@MainActivity) {} }
+                val consentInitialization =
+                    async(dispatchers.io) { ConsentManagerHelper.applyInitialConsent(dataStore) }
+
+                awaitAll(adsInitialization, consentInitialization)
+            }
         }
-
-        updateResultLauncher = registerForActivityResult(contract = ActivityResultContracts.StartIntentSenderForResult()) {}
-
-        viewModel = getViewModel { parametersOf(updateResultLauncher) }
     }
 
-    private fun handleStartup() {
+    private fun handleStartup(intentAction: String?) {
         lifecycleScope.launch {
             val isFirstLaunch: Boolean = withContext(dispatchers.io) {
                 dataStore.startup.first()
             }
+
             keepSplashVisible = false
+
             if (isFirstLaunch) {
                 startStartupActivity()
             } else {
                 setMainActivityContent()
+                doIntentAction(intentAction)
             }
         }
     }
 
     private fun startStartupActivity() {
-        IntentsHelper.openActivity(context = this , activityClass = StartupActivity::class.java)
+        openActivity(activityClass = StartupActivity::class.java)
         finish()
     }
 
@@ -115,13 +127,15 @@ class MainActivity : AppCompatActivity() {
         setContent {
             AppTheme {
                 MainScreen()
-                doIntentAction(intent?.action)
+
                 if (showAccessibilityDialog) {
                     ShowAccessibilityDisclosure(
                         onDismissRequest = { showAccessibilityDialog = false },
                         onContinue = {
                             showAccessibilityDialog = false
-                            startForResult.launch(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+                            accessibilitySettingsLauncher.launch(
+                                Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                            )
                         }
                     )
                 }
@@ -130,33 +144,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun doIntentAction(action: String?) {
-        action ?: return
-        if (action == REQUEST_PERMISSION_AND_SHOW_ACTION) {
-            requestPermission()
+        when (action) {
+            REQUEST_PERMISSION_AND_SHOW_ACTION -> requestPermissionAndShow()
+            else -> Unit
         }
     }
 
-    private val startForResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        if (isAccessibilityServiceRunning(this)) {
-            requestAllPermissionsAndShow()
-        } else {
-            getString(R.string.no_accessibility_permission).showToast()
-        }
-    }
-
-    private fun requestPermission() {
-        requestSystemAlertWindowPermission(onGranted = {
-            if (isAccessibilityServiceRunning(this)) {
-                NightScreenReceiver.Companion.sendBroadcast(
-                    context = this,
-                    action = NightScreenReceiver.Companion.SHOW_DIALOG_AND_NIGHT_SCREEN_ACTION
-                )
-            } else {
-                showAccessibilityDialog = true
+    private fun requestPermissionAndShow() {
+        requestSystemAlertWindowPermission(
+            onGranted = {
+                if (isAccessibilityServiceRunning(this)) {
+                    NightScreenReceiver.sendBroadcast(
+                        context = this,
+                        action = NightScreenReceiver.SHOW_DIALOG_AND_NIGHT_SCREEN_ACTION
+                    )
+                } else {
+                    showAccessibilityDialog = true
+                }
             }
-        })
+        )
     }
 
     private fun checkUserConsent() {
@@ -176,7 +182,9 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val (sessionCount: Int, hasPrompted: Boolean) = coroutineScope {
                 val sessionCountDeferred = async(dispatchers.io) { dataStore.sessionCount.first() }
-                val hasPromptedDeferred = async(dispatchers.io) { dataStore.hasPromptedReview.first() }
+                val hasPromptedDeferred =
+                    async(dispatchers.io) { dataStore.hasPromptedReview.first() }
+
                 awaitAll(sessionCountDeferred, hasPromptedDeferred)
                 sessionCountDeferred.getCompleted() to hasPromptedDeferred.getCompleted()
             }
@@ -193,13 +201,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkForUpdates() {
-        lifecycleScope.launch {
-            withContext(dispatchers.io) {
-                InAppUpdateHelper.performUpdate(
-                    appUpdateManager = AppUpdateManagerFactory.create(this@MainActivity),
-                    updateResultLauncher = updateResultLauncher,
-                )
-            }
-        }
+        InAppUpdateHelper.performUpdate(
+            appUpdateManager = AppUpdateManagerFactory.create(this@MainActivity),
+            updateResultLauncher = updateResultLauncher,
+        )
     }
 }
