@@ -164,6 +164,7 @@ dependencies {
     implementation(dependencyNotation = libs.profileinstaller)
     implementation(dependencyNotation = libs.compose.color.picker)
     implementation(dependencyNotation = libs.compose.color.picker.android)
+    implementation(dependencyNotation = libs.coil.compose)
 
     // Unit Tests
     testImplementation(dependencyNotation = libs.bundles.unitTest)

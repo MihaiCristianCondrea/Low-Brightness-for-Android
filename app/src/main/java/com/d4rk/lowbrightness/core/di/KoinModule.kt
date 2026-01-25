@@ -3,6 +3,7 @@ package com.d4rk.lowbrightness.core.di
 import android.content.Context
 import com.d4rk.lowbrightness.core.di.modules.app.modules.adsModule
 import com.d4rk.lowbrightness.core.di.modules.app.modules.appModule
+import com.d4rk.lowbrightness.core.di.modules.app.modules.brightnessModule
 import com.d4rk.lowbrightness.core.di.modules.app.modules.onboardingModule
 import com.d4rk.lowbrightness.core.di.modules.apptoolkit.appToolkitModules
 import com.d4rk.lowbrightness.core.di.modules.core.modules.coreModule
@@ -20,6 +21,7 @@ fun initializeKoin(context: Context) {
                 add(dispatchersModule)
                 add(coreModule)
                 add(appModule)
+                add(brightnessModule)
                 addAll(settingsModules)
                 add(adsModule)
                 addAll(appToolkitModules)

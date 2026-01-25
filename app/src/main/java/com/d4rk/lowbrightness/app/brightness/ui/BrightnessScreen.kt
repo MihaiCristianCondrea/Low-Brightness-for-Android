@@ -19,6 +19,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.d4rk.android.libs.apptoolkit.core.ui.model.ads.AdsConfig
 import com.d4rk.android.libs.apptoolkit.core.ui.views.ads.AdBanner
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.ui.SizeConstants
@@ -32,16 +33,21 @@ import com.d4rk.lowbrightness.app.brightness.ui.views.BottomImage
 import com.d4rk.lowbrightness.app.brightness.ui.views.ColorCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.IntensityCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.ScheduleCard
+import com.d4rk.lowbrightness.app.brightness.ui.views.cards.PromotedAppCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.ShowAccessibilityDisclosure
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.requestAllPermissionsWithAccessibilityAndShow
 import com.d4rk.lowbrightness.ui.component.showToast
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.qualifier.named
 
 @Composable
 fun BrightnessScreen(paddingValues: PaddingValues) {
     val context = LocalContext.current
     val currentContext = rememberUpdatedState(context)
+    val viewModel: BrightnessViewModel = koinViewModel()
+    val screenState = viewModel.uiState.collectAsStateWithLifecycle().value
+    val uiState = screenState.data
 
     val mediumRectangleAdConfig: AdsConfig =
         koinInject(qualifier = named("banner_medium_rectangle"))
@@ -109,6 +115,9 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
                 .padding(vertical = SizeConstants.MediumSize),
             adsConfig = mediumRectangleAdConfig
         )
+        uiState?.promotedApp?.let { promotedApp ->
+            PromotedAppCard(app = promotedApp)
+        }
         BottomImage()
         AdBanner(
             modifier = Modifier

@@ -50,6 +50,11 @@
     <string name="alert_window_permission">alert window</string>
     <string name="post_notification_permission">post notification</string>
     <string name="night_screen_is_running">Night Screen is activated…</string>
+    <string name="promoted_app_title">Recommended app</string>
+    <string name="promoted_app_install">Install</string>
+    <string name="promoted_app_icon_description">Icon for %s</string>
+    <string name="promoted_app_recommendation_icon_description">Recommendation</string>
+    <string name="promoted_app_install_icon_description">Install recommended app</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Brightness</string>

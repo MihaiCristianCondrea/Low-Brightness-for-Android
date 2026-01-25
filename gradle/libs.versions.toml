@@ -10,6 +10,7 @@ md3 = "1.4.0"
 accompanist = "0.36.0"
 profileinstaller = "1.4.1"
 colorPicker = "0.7.0"
+coil = "2.7.0"
 
 # Testing
 ktorBom = "3.4.0"
@@ -34,6 +35,7 @@ accompanist-navigation-animation = { module = "com.google.accompanist:accompanis
 profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileinstaller" }
 compose-color-picker = { module = "com.godaddy.android.colorpicker:compose-color-picker", version.ref = "colorPicker" }
 compose-color-picker-android = { module = "com.godaddy.android.colorpicker:compose-color-picker-android", version.ref = "colorPicker" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 # --- TESTING ---
 # Unit Tests (test folder)
