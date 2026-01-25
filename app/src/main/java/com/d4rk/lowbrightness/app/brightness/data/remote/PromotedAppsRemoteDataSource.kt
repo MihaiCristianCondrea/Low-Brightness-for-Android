@@ -24,7 +24,10 @@ class PromotedAppsRemoteDataSource {
                 buildList {
                     for (i in 0 until appsJson.length()) {
                         val item = appsJson.optJSONObject(i) ?: continue
-                        val category = item.optString("category")
+                        val category = item.optJSONObject("category")
+                            ?.optString("category_id")
+                            ?.ifBlank { null }
+                            ?: item.optString("category")
                         val name = item.optString("name")
                         val packageName = item.optString("packageName")
                         val iconLogo = item.optString("iconLogo")
