@@ -32,10 +32,8 @@ class BrightnessViewModel(
     private fun loadPromotedApp() {
         viewModelScope.launch(dispatchers.io) {
             val suggestedApp = getPromotedAppUseCase(BuildConfig.APPLICATION_ID)
-            suggestedApp?.let { promotedApp ->
-                screenState.successData {
-                    copy(promotedApp = promotedApp)
-                }
+            screenState.successData {
+                copy(promotedApp = suggestedApp)
             }
         }
     }

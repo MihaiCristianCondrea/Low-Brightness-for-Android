@@ -1,7 +1,6 @@
 package com.d4rk.lowbrightness.app.brightness.ui.views.cards
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,7 +24,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import androidx.core.net.toUri
+import coil3.compose.AsyncImage
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.ui.SizeConstants
 import com.d4rk.lowbrightness.R
 import com.d4rk.lowbrightness.app.brightness.domain.model.PromotedApp
@@ -88,7 +88,7 @@ fun PromotedAppCard(app: PromotedApp, modifier: Modifier = Modifier) {
                 OutlinedButton(
                     onClick = {
                         val url = "https://play.google.com/store/apps/details?id=${app.packageName}"
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                        val intent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
                             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         }
                         context.startActivity(intent)

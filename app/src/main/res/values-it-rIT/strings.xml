@@ -54,7 +54,7 @@
     <string name="promoted_app_install">Installa</string>
     <string name="promoted_app_icon_description">Icona per %s</string>
     <string name="promoted_app_recommendation_icon_description">Consiglio</string>
-    <string name="promoted_app_install_icon_description">Installa l'app consigliata</string>
+    <string name="promoted_app_install_icon_description">Installa l\'app consigliata</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Luminosità</string>
