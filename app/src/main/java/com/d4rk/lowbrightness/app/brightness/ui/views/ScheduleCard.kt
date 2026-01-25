@@ -43,41 +43,95 @@ import com.d4rk.lowbrightness.app.brightness.domain.ext.fragmentActivity
 import com.d4rk.lowbrightness.app.brightness.domain.services.SchedulerService
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import java.util.Calendar
 import java.util.Locale
-import java.util.TimeZone
 
 @Composable
 fun ScheduleCard() {
     val context = LocalContext.current
+    val appContext = context.applicationContext
 
-    var enabled by remember { mutableStateOf(SchedulerService.isEnabled(context)) }
-    var startHour by remember { mutableIntStateOf(SchedulerService.getCalendarForStart(context).get(Calendar.HOUR_OF_DAY)) }
-    var startMinute by remember { mutableIntStateOf(SchedulerService.getCalendarForStart(context).get(Calendar.MINUTE)) }
-    var endHour by remember { mutableIntStateOf(SchedulerService.getCalendarForEnd(context).get(Calendar.HOUR_OF_DAY)) }
-    var endMinute by remember { mutableIntStateOf(SchedulerService.getCalendarForEnd(context).get(Calendar.MINUTE)) }
+    // ✅ Use Compose resources (no LocalContext.getString inside effects)
+    val remainingToLightenLabel = stringResource(R.string.time_remaining_to_lighten_label)
+    val remainingToDarkenLabel = stringResource(R.string.time_remaining_to_darken_label)
+
+    val initialStart = remember { SchedulerService.getCalendarForStart(appContext) }
+    val initialEnd = remember { SchedulerService.getCalendarForEnd(appContext) }
+
+    var enabled by remember { mutableStateOf(SchedulerService.isEnabled(appContext)) }
+    var startHour by remember { mutableIntStateOf(initialStart.get(Calendar.HOUR_OF_DAY)) }
+    var startMinute by remember { mutableIntStateOf(initialStart.get(Calendar.MINUTE)) }
+    var endHour by remember { mutableIntStateOf(initialEnd.get(Calendar.HOUR_OF_DAY)) }
+    var endMinute by remember { mutableIntStateOf(initialEnd.get(Calendar.MINUTE)) }
+
     var remaining by remember { mutableStateOf("") }
 
-    LaunchedEffect(enabled, startHour, startMinute, endHour, endMinute) {
-        while (enabled) {
+    LaunchedEffect(
+        enabled,
+        startHour,
+        startMinute,
+        endHour,
+        endMinute,
+        remainingToLightenLabel,
+        remainingToDarkenLabel,
+    ) {
+        if (!enabled) {
+            remaining = ""
+            return@LaunchedEffect
+        }
+
+        while (isActive) {
             val now = Calendar.getInstance()
-            val start = SchedulerService.getCalendarForStart(context)
-            val end = SchedulerService.getCalendarForEnd(context)
-            remaining = if (now.timeInMillis > start.timeInMillis && now.timeInMillis < end.timeInMillis) {
-                val diff = end.timeInMillis - now.timeInMillis
-                val formatted = String.format(Locale.getDefault(), "%tT", diff - TimeZone.getDefault().rawOffset)
-                context.getString(R.string.time_remaining_to_lighten_label) + ": " + formatted // FIXME: Querying resource values using LocalContext.current
-            } else {
-                val diff = if (now.timeInMillis < start.timeInMillis) {
-                    start.timeInMillis - now.timeInMillis
-                } else {
-                    start.add(Calendar.DATE, 1)
-                    start.timeInMillis - now.timeInMillis
-                }
-                val formatted = String.format(Locale.getDefault(), "%tT", diff - TimeZone.getDefault().rawOffset)
-                context.getString(R.string.time_remaining_to_darken_label) + ": " + formatted // FIXME: Querying resource values using LocalContext.current
+
+            val start = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, startHour)
+                set(Calendar.MINUTE, startMinute)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
             }
-            delay(1000)
+
+            val end = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, endHour)
+                set(Calendar.MINUTE, endMinute)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+
+            val startMinutesOfDay = startHour * 60 + startMinute
+            val endMinutesOfDay = endHour * 60 + endMinute
+            val crossesMidnight = endMinutesOfDay <= startMinutesOfDay
+
+            if (crossesMidnight) {
+                // end is "tomorrow"
+                end.add(Calendar.DAY_OF_YEAR, 1)
+
+                // if it's after midnight but before today's end-time, we're inside the interval started yesterday
+                val endToday = (end.clone() as Calendar).apply { add(Calendar.DAY_OF_YEAR, -1) }
+                if (now.before(start) && now.before(endToday)) {
+                    start.add(Calendar.DAY_OF_YEAR, -1)
+                    end.add(Calendar.DAY_OF_YEAR, -1)
+                }
+            }
+
+            val nowMs = now.timeInMillis
+            val startMs = start.timeInMillis
+            val endMs = end.timeInMillis
+
+            val isInInterval = nowMs in startMs..<endMs
+
+            remaining = if (isInInterval) {
+                val diff = (endMs - nowMs).coerceAtLeast(0L)
+                "${remainingToLightenLabel}: ${formatDurationHms(diff)}"
+            } else {
+                val nextStart = (start.clone() as Calendar).apply {
+                    if (nowMs >= endMs) add(Calendar.DAY_OF_YEAR, 1)
+                }
+                val diff = (nextStart.timeInMillis - nowMs).coerceAtLeast(0L)
+                "${remainingToDarkenLabel}: ${formatDurationHms(diff)}"
+            }
+
+            delay(1_000)
         }
     }
 
@@ -88,7 +142,6 @@ fun ScheduleCard() {
             .padding(vertical = SizeConstants.SmallSize + SizeConstants.ExtraTinySize)
     ) {
         Column {
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -109,18 +162,22 @@ fun ScheduleCard() {
                     text = stringResource(id = R.string.summary_scheduler),
                     style = MaterialTheme.typography.bodyMedium
                 )
+
                 Button(
                     onClick = {
                         if (enabled) {
-                            SchedulerService.disable(context)
+                            SchedulerService.disable(appContext)
+                            remaining = ""
                         } else {
-                            SchedulerService.enable(context)
+                            SchedulerService.enable(appContext)
                         }
                         enabled = !enabled
                     },
                     modifier = Modifier
                         .padding(top = SizeConstants.SmallSize + SizeConstants.ExtraTinySize)
-                        .align(Alignment.CenterHorizontally).animateContentSize().bounceClick()
+                        .align(Alignment.CenterHorizontally)
+                        .animateContentSize()
+                        .bounceClick()
                 ) {
                     Icon(
                         modifier = Modifier.size(SizeConstants.ButtonIconSize),
@@ -134,6 +191,7 @@ fun ScheduleCard() {
                         modifier = Modifier.animateContentSize()
                     )
                 }
+
                 AnimatedVisibility(
                     visible = enabled,
                     enter = expandVertically(),
@@ -145,16 +203,23 @@ fun ScheduleCard() {
                             text = stringResource(id = R.string.enabled_only_during_this_interval),
                             textAlign = TextAlign.Center
                         )
-                        Row(modifier = Modifier.fillMaxWidth().padding(top = SizeConstants.SmallSize + SizeConstants.ExtraTinySize)) {
-                            val activity = context.fragmentActivity
+
+                        val activity = context.fragmentActivity
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = SizeConstants.SmallSize + SizeConstants.ExtraTinySize)
+                        ) {
                             OutlinedButton(
                                 onClick = {
                                     val dlg = TimePickerDialog.newInstance({ _, h, m, _ ->
                                         startHour = h
                                         startMinute = m
-                                        SchedulerService.setFrom(context, h, m)
-                                        SchedulerService.evaluateSchedule(context)
+                                        SchedulerService.setFrom(appContext, h, m)
+                                        SchedulerService.evaluateSchedule(appContext)
                                     }, startHour, startMinute, true)
+
                                     activity?.let { dlg.show(it.supportFragmentManager, "from") }
                                 },
                                 modifier = Modifier.weight(1f).bounceClick()
@@ -167,15 +232,18 @@ fun ScheduleCard() {
                                 ButtonIconSpacer()
                                 Text(String.format(Locale.getDefault(), "%02d:%02d", startHour, startMinute))
                             }
+
                             SmallHorizontalSpacer()
+
                             OutlinedButton(
                                 onClick = {
                                     val dlg = TimePickerDialog.newInstance({ _, h, m, _ ->
                                         endHour = h
                                         endMinute = m
-                                        SchedulerService.setTo(context, h, m)
-                                        SchedulerService.evaluateSchedule(context)
+                                        SchedulerService.setTo(appContext, h, m)
+                                        SchedulerService.evaluateSchedule(appContext)
                                     }, endHour, endMinute, true)
+
                                     activity?.let { dlg.show(it.supportFragmentManager, "to") }
                                 },
                                 modifier = Modifier.weight(1f).bounceClick()
@@ -189,6 +257,7 @@ fun ScheduleCard() {
                                 Text(String.format(Locale.getDefault(), "%02d:%02d", endHour, endMinute))
                             }
                         }
+
                         if (remaining.isNotEmpty()) {
                             Text(
                                 text = remaining,
@@ -201,4 +270,12 @@ fun ScheduleCard() {
             }
         }
     }
+}
+
+private fun formatDurationHms(durationMillis: Long): String {
+    val totalSeconds = (durationMillis / 1_000L).coerceAtLeast(0L)
+    val hours = totalSeconds / 3600L
+    val minutes = (totalSeconds % 3600L) / 60L
+    val seconds = totalSeconds % 60L
+    return String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
 }
