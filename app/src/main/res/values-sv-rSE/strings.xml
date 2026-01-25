@@ -50,6 +50,11 @@
     <string name="alert_window_permission">visa över andra appar</string>
     <string name="post_notification_permission">skicka aviseringar</string>
     <string name="night_screen_is_running">Nattläge är aktiverat…</string>
+    <string name="promoted_app_title">Rekommenderad app</string>
+    <string name="promoted_app_install">Installera</string>
+    <string name="promoted_app_icon_description">Ikon för %s</string>
+    <string name="promoted_app_recommendation_icon_description">Rekommendation</string>
+    <string name="promoted_app_install_icon_description">Installera rekommenderad app</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Ljusstyrka</string>

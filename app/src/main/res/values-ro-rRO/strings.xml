@@ -50,6 +50,11 @@
     <string name="alert_window_permission">afișare peste alte aplicații</string>
     <string name="post_notification_permission">trimitere notificări</string>
     <string name="night_screen_is_running">Ecranul de noapte este activat…</string>
+    <string name="promoted_app_title">Aplicație recomandată</string>
+    <string name="promoted_app_install">Instalează</string>
+    <string name="promoted_app_icon_description">Pictogramă pentru %s</string>
+    <string name="promoted_app_recommendation_icon_description">Recomandare</string>
+    <string name="promoted_app_install_icon_description">Instalează aplicația recomandată</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Luminozitate</string>

@@ -50,6 +50,11 @@
     <string name="alert_window_permission">แสดงทับแอปอื่น</string>
     <string name="post_notification_permission">ส่งการแจ้งเตือน</string>
     <string name="night_screen_is_running">โหมดกลางคืนทำงานอยู่…</string>
+    <string name="promoted_app_title">แอปที่แนะนำ</string>
+    <string name="promoted_app_install">ติดตั้ง</string>
+    <string name="promoted_app_icon_description">ไอคอนสำหรับ %s</string>
+    <string name="promoted_app_recommendation_icon_description">คำแนะนำ</string>
+    <string name="promoted_app_install_icon_description">ติดตั้งแอปที่แนะนำ</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">ความสว่าง</string>

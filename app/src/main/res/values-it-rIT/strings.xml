@@ -50,6 +50,11 @@
     <string name="alert_window_permission">finestra di avviso</string>
     <string name="post_notification_permission">invio notifiche</string>
     <string name="night_screen_is_running">Modalità notturna attivata…</string>
+    <string name="promoted_app_title">App consigliata</string>
+    <string name="promoted_app_install">Installa</string>
+    <string name="promoted_app_icon_description">Icona per %s</string>
+    <string name="promoted_app_recommendation_icon_description">Consiglio</string>
+    <string name="promoted_app_install_icon_description">Installa l\'app consigliata</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Luminosità</string>

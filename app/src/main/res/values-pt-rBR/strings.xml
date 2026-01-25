@@ -50,6 +50,11 @@
     <string name="alert_window_permission">sobreposição de tela</string>
     <string name="post_notification_permission">enviar notificação</string>
     <string name="night_screen_is_running">Tela Noturna está ativada…</string>
+    <string name="promoted_app_title">App recomendada</string>
+    <string name="promoted_app_install">Instalar</string>
+    <string name="promoted_app_icon_description">Ícone de %s</string>
+    <string name="promoted_app_recommendation_icon_description">Recomendação</string>
+    <string name="promoted_app_install_icon_description">Instalar app recomendada</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Brilho</string>

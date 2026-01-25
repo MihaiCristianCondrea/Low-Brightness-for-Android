@@ -50,6 +50,11 @@
     <string name="alert_window_permission">прозорец за предупреждение</string>
     <string name="post_notification_permission">изпращане на известия</string>
     <string name="night_screen_is_running">Нощният екран е активиран…</string>
+    <string name="promoted_app_title">Препоръчано приложение</string>
+    <string name="promoted_app_install">Инсталиране</string>
+    <string name="promoted_app_icon_description">Икона за %s</string>
+    <string name="promoted_app_recommendation_icon_description">Препоръка</string>
+    <string name="promoted_app_install_icon_description">Инсталиране на препоръчаното приложение</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Яркост</string>

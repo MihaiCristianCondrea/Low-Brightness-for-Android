@@ -50,6 +50,11 @@
     <string name="alert_window_permission">نافذة التنبيه</string>
     <string name="post_notification_permission">إرسال الإشعارات</string>
     <string name="night_screen_is_running">الشاشة الليلية مُفعّلة…</string>
+    <string name="promoted_app_title">تطبيق موصى به</string>
+    <string name="promoted_app_install">تثبيت</string>
+    <string name="promoted_app_icon_description">أيقونة %s</string>
+    <string name="promoted_app_recommendation_icon_description">توصية</string>
+    <string name="promoted_app_install_icon_description">تثبيت التطبيق الموصى به</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">السطوع</string>

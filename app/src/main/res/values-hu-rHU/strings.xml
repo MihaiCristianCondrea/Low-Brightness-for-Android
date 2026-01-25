@@ -50,6 +50,11 @@
     <string name="alert_window_permission">figyelmeztető ablak</string>
     <string name="post_notification_permission">értesítés küldése</string>
     <string name="night_screen_is_running">Éjszakai mód aktiválva…</string>
+    <string name="promoted_app_title">Ajánlott alkalmazás</string>
+    <string name="promoted_app_install">Telepítés</string>
+    <string name="promoted_app_icon_description">%s ikonja</string>
+    <string name="promoted_app_recommendation_icon_description">Ajánlás</string>
+    <string name="promoted_app_install_icon_description">Ajánlott alkalmazás telepítése</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Fényerő</string>

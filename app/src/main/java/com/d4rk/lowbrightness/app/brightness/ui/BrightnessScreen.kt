@@ -19,29 +19,38 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.d4rk.android.libs.apptoolkit.core.ui.model.ads.AdsConfig
 import com.d4rk.android.libs.apptoolkit.core.ui.views.ads.AdBanner
+import com.d4rk.android.libs.apptoolkit.core.ui.views.layouts.LoadingScreen
+import com.d4rk.android.libs.apptoolkit.core.ui.views.layouts.ScreenStateHandler
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.ui.SizeConstants
 import com.d4rk.lowbrightness.R
 import com.d4rk.lowbrightness.app.brightness.domain.ext.activity
 import com.d4rk.lowbrightness.app.brightness.domain.ext.plus
 import com.d4rk.lowbrightness.app.brightness.domain.ext.requestAllPermissions
 import com.d4rk.lowbrightness.app.brightness.domain.services.isAccessibilityServiceRunning
+import com.d4rk.lowbrightness.app.brightness.ui.state.BrightnessUiState
 import com.d4rk.lowbrightness.app.brightness.ui.views.ActionsCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.BottomImage
 import com.d4rk.lowbrightness.app.brightness.ui.views.ColorCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.IntensityCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.ScheduleCard
+import com.d4rk.lowbrightness.app.brightness.ui.views.cards.PromotedAppCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.ShowAccessibilityDisclosure
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.requestAllPermissionsWithAccessibilityAndShow
 import com.d4rk.lowbrightness.ui.component.showToast
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.qualifier.named
 
 @Composable
 fun BrightnessScreen(paddingValues: PaddingValues) {
     val context = LocalContext.current
     val currentContext = rememberUpdatedState(context)
+    val viewModel: BrightnessViewModel = koinViewModel()
+    val screenState = viewModel.uiState.collectAsStateWithLifecycle().value
+    val fallbackState = screenState.data ?: BrightnessUiState()
 
     val mediumRectangleAdConfig: AdsConfig =
         koinInject(qualifier = named("banner_medium_rectangle"))
@@ -68,6 +77,103 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
             noAccessibilityPermissionText.value.showToast()
         }
     }
+    ScreenStateHandler(
+        screenState = screenState,
+        onLoading = { LoadingScreen(paddingValues = paddingValues) },
+        onEmpty = {
+            BrightnessScreenContent(
+                paddingValues = paddingValues,
+                uiState = fallbackState,
+                mediumRectangleAdConfig = mediumRectangleAdConfig,
+                largeBannerAdConfig = largeBannerAdConfig,
+                onRunNightScreenClick = {
+                    if (isAccessibilityServiceRunning(context)) {
+                        requestAllPermissionsWithAccessibilityAndShow(context)
+                    } else {
+                        runAfterPermission.value = true
+                        showAccessibilityDialog.value = true
+                    }
+                },
+                onRequestPermissionsClick = {
+                    if (isAccessibilityServiceRunning(context)) {
+                        context.activity.requestAllPermissions()
+                    } else {
+                        runAfterPermission.value = false
+                        showAccessibilityDialog.value = true
+                    }
+                }
+            )
+        },
+        onSuccess = { uiState ->
+            BrightnessScreenContent(
+                paddingValues = paddingValues,
+                uiState = uiState,
+                mediumRectangleAdConfig = mediumRectangleAdConfig,
+                largeBannerAdConfig = largeBannerAdConfig,
+                onRunNightScreenClick = {
+                    if (isAccessibilityServiceRunning(context)) {
+                        requestAllPermissionsWithAccessibilityAndShow(context)
+                    } else {
+                        runAfterPermission.value = true
+                        showAccessibilityDialog.value = true
+                    }
+                },
+                onRequestPermissionsClick = {
+                    if (isAccessibilityServiceRunning(context)) {
+                        context.activity.requestAllPermissions()
+                    } else {
+                        runAfterPermission.value = false
+                        showAccessibilityDialog.value = true
+                    }
+                }
+            )
+        },
+        onError = {
+            BrightnessScreenContent(
+                paddingValues = paddingValues,
+                uiState = fallbackState,
+                mediumRectangleAdConfig = mediumRectangleAdConfig,
+                largeBannerAdConfig = largeBannerAdConfig,
+                onRunNightScreenClick = {
+                    if (isAccessibilityServiceRunning(context)) {
+                        requestAllPermissionsWithAccessibilityAndShow(context)
+                    } else {
+                        runAfterPermission.value = true
+                        showAccessibilityDialog.value = true
+                    }
+                },
+                onRequestPermissionsClick = {
+                    if (isAccessibilityServiceRunning(context)) {
+                        context.activity.requestAllPermissions()
+                    } else {
+                        runAfterPermission.value = false
+                        showAccessibilityDialog.value = true
+                    }
+                }
+            )
+        }
+    )
+
+    if (showAccessibilityDialog.value) {
+        ShowAccessibilityDisclosure(
+            onDismissRequest = { showAccessibilityDialog.value = false },
+            onContinue = {
+                showAccessibilityDialog.value = false
+                startForResult.launch(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            }
+        )
+    }
+}
+
+@Composable
+private fun BrightnessScreenContent(
+    paddingValues: PaddingValues,
+    uiState: BrightnessUiState,
+    mediumRectangleAdConfig: AdsConfig,
+    largeBannerAdConfig: AdsConfig,
+    onRunNightScreenClick: () -> Unit,
+    onRequestPermissionsClick: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -86,22 +192,8 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
         )
         ScheduleCard()
         ActionsCard(
-            onRunNightScreenClick = {
-                if (isAccessibilityServiceRunning(context)) {
-                    requestAllPermissionsWithAccessibilityAndShow(context)
-                } else {
-                    runAfterPermission.value = true
-                    showAccessibilityDialog.value = true
-                }
-            },
-            onRequestPermissionsClick = {
-                if (isAccessibilityServiceRunning(context)) {
-                    context.activity.requestAllPermissions()
-                } else {
-                    runAfterPermission.value = false
-                    showAccessibilityDialog.value = true
-                }
-            }
+            onRunNightScreenClick = onRunNightScreenClick,
+            onRequestPermissionsClick = onRequestPermissionsClick
         )
         AdBanner(
             modifier = Modifier
@@ -109,22 +201,15 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
                 .padding(vertical = SizeConstants.MediumSize),
             adsConfig = mediumRectangleAdConfig
         )
+        uiState.promotedApp?.let { promotedApp ->
+            PromotedAppCard(app = promotedApp)
+        }
         BottomImage()
         AdBanner(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = SizeConstants.MediumSize),
             adsConfig = largeBannerAdConfig
-        )
-    }
-
-    if (showAccessibilityDialog.value) {
-        ShowAccessibilityDisclosure(
-            onDismissRequest = { showAccessibilityDialog.value = false },
-            onContinue = {
-                showAccessibilityDialog.value = false
-                startForResult.launch(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-            }
         )
     }
 }

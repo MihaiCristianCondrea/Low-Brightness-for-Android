@@ -50,6 +50,11 @@
     <string name="alert_window_permission">wyświetlanie nad innymi aplikacjami</string>
     <string name="post_notification_permission">wysyłanie powiadomień</string>
     <string name="night_screen_is_running">Tryb nocny jest aktywny…</string>
+    <string name="promoted_app_title">Polecana aplikacja</string>
+    <string name="promoted_app_install">Zainstaluj</string>
+    <string name="promoted_app_icon_description">Ikona dla %s</string>
+    <string name="promoted_app_recommendation_icon_description">Rekomendacja</string>
+    <string name="promoted_app_install_icon_description">Zainstaluj polecaną aplikację</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Jasność</string>

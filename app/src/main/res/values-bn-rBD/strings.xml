@@ -50,6 +50,11 @@
     <string name="alert_window_permission">সতর্কীকরণ উইন্ডো</string>
     <string name="post_notification_permission">নোটিফিকেশন পাঠানো</string>
     <string name="night_screen_is_running">নাইট স্ক্রিন সক্রিয় করা হয়েছে…</string>
+    <string name="promoted_app_title">প্রস্তাবিত অ্যাপ</string>
+    <string name="promoted_app_install">ইনস্টল</string>
+    <string name="promoted_app_icon_description">%s-এর আইকন</string>
+    <string name="promoted_app_recommendation_icon_description">প্রস্তাবনা</string>
+    <string name="promoted_app_install_icon_description">প্রস্তাবিত অ্যাপ ইনস্টল করুন</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">উজ্জ্বলতা</string>

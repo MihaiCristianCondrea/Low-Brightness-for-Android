@@ -50,6 +50,11 @@
     <string name="alert_window_permission">他のアプリの上に表示</string>
     <string name="post_notification_permission">通知</string>
     <string name="night_screen_is_running">ナイトスクリーンが作動中…</string>
+    <string name="promoted_app_title">おすすめアプリ</string>
+    <string name="promoted_app_install">インストール</string>
+    <string name="promoted_app_icon_description">%s のアイコン</string>
+    <string name="promoted_app_recommendation_icon_description">おすすめ</string>
+    <string name="promoted_app_install_icon_description">おすすめアプリをインストール</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">明るさ</string>

@@ -49,6 +49,11 @@
     <string name="alert_window_permission">відображення поверх інших вікон</string>
     <string name="post_notification_permission">надсилання сповіщень</string>
     <string name="night_screen_is_running">Нічний режим активовано…</string>
+    <string name="promoted_app_title">Рекомендований додаток</string>
+    <string name="promoted_app_install">Встановити</string>
+    <string name="promoted_app_icon_description">Іконка для %s</string>
+    <string name="promoted_app_recommendation_icon_description">Рекомендація</string>
+    <string name="promoted_app_install_icon_description">Встановити рекомендований додаток</string>
 
     <!-- Settings screen -->
     <string name="settings_brightness_title">Яскравість</string>
