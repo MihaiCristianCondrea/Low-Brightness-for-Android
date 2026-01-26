@@ -13,9 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Shop
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil3.compose.AsyncImage
+import com.d4rk.android.libs.apptoolkit.core.ui.views.buttons.GeneralOutlinedButton
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.ui.SizeConstants
 import com.d4rk.lowbrightness.R
 import com.d4rk.lowbrightness.app.brightness.domain.model.PromotedApp
@@ -90,7 +89,13 @@ fun PromotedAppCard(
                         color = MaterialTheme.colorScheme.onSurface
                     )
 
-                    OutlinedButton(
+                    val installLabel = stringResource(id = R.string.promoted_app_install)
+                    GeneralOutlinedButton(
+                        label = installLabel,
+                        vectorIcon = Icons.Outlined.Shop,
+                        iconContentDescription = stringResource(
+                            id = R.string.promoted_app_install_icon_description
+                        ),
                         onClick = {
                             val url =
                                 "https://play.google.com/store/apps/details?id=${app.packageName}"
@@ -99,19 +104,7 @@ fun PromotedAppCard(
                             }
                             context.startActivity(intent)
                         }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Shop,
-                            contentDescription = stringResource(
-                                id = R.string.promoted_app_install_icon_description
-                            ),
-                            modifier = Modifier.size(SizeConstants.ButtonIconSize)
-                        )
-                        Text(
-                            text = stringResource(id = R.string.promoted_app_install),
-                            modifier = Modifier.padding(start = SizeConstants.ExtraSmallSize)
-                        )
-                    }
+                    )
                 }
             }
         }

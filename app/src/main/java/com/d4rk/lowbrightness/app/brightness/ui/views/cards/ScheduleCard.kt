@@ -10,16 +10,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.material.icons.outlined.PowerSettingsNew
 import androidx.compose.material.icons.outlined.TimerOff
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,8 +30,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.d4rk.android.libs.apptoolkit.core.ui.views.buttons.GeneralButton
+import com.d4rk.android.libs.apptoolkit.core.ui.views.buttons.GeneralOutlinedButton
 import com.d4rk.android.libs.apptoolkit.core.ui.views.modifiers.bounceClick
-import com.d4rk.android.libs.apptoolkit.core.ui.views.spacers.ButtonIconSpacer
 import com.d4rk.android.libs.apptoolkit.core.ui.views.spacers.SmallHorizontalSpacer
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.ui.SizeConstants
 import com.d4rk.lowbrightness.R
@@ -163,7 +160,16 @@ fun ScheduleCard() {
                     style = MaterialTheme.typography.bodyMedium
                 )
 
-                Button(
+                val toggleSchedulerLabel = if (enabled) {
+                    stringResource(id = R.string.disable_scheduler)
+                } else {
+                    stringResource(id = R.string.enable_scheduler)
+                }
+
+                GeneralButton(
+                    label = toggleSchedulerLabel,
+                    vectorIcon = Icons.Outlined.PowerSettingsNew,
+                    iconContentDescription = toggleSchedulerLabel,
                     onClick = {
                         if (enabled) {
                             SchedulerService.disable(appContext)
@@ -178,19 +184,7 @@ fun ScheduleCard() {
                         .align(Alignment.CenterHorizontally)
                         .animateContentSize()
                         .bounceClick()
-                ) {
-                    Icon(
-                        modifier = Modifier.size(SizeConstants.ButtonIconSize),
-                        imageVector = Icons.Outlined.PowerSettingsNew,
-                        contentDescription = null
-                    )
-                    ButtonIconSpacer()
-                    Text(
-                        text = if (enabled) stringResource(id = R.string.disable_scheduler)
-                        else stringResource(id = R.string.enable_scheduler),
-                        modifier = Modifier.animateContentSize()
-                    )
-                }
+                )
 
                 AnimatedVisibility(
                     visible = enabled,
@@ -211,7 +205,16 @@ fun ScheduleCard() {
                                 .fillMaxWidth()
                                 .padding(top = SizeConstants.SmallSize + SizeConstants.ExtraTinySize)
                         ) {
-                            OutlinedButton(
+                            val startTimeLabel = String.format(
+                                Locale.getDefault(),
+                                "%02d:%02d",
+                                startHour,
+                                startMinute
+                            )
+                            GeneralOutlinedButton(
+                                label = startTimeLabel,
+                                vectorIcon = Icons.Outlined.AccessTime,
+                                iconContentDescription = startTimeLabel,
                                 onClick = {
                                     val dlg = TimePickerDialog.newInstance({ _, h, m, _ ->
                                         startHour = h
@@ -223,19 +226,20 @@ fun ScheduleCard() {
                                     activity?.let { dlg.show(it.supportFragmentManager, "from") }
                                 },
                                 modifier = Modifier.weight(1f).bounceClick()
-                            ) {
-                                Icon(
-                                    modifier = Modifier.size(SizeConstants.ButtonIconSize),
-                                    imageVector = Icons.Outlined.AccessTime,
-                                    contentDescription = null
-                                )
-                                ButtonIconSpacer()
-                                Text(String.format(Locale.getDefault(), "%02d:%02d", startHour, startMinute))
-                            }
+                            )
 
                             SmallHorizontalSpacer()
 
-                            OutlinedButton(
+                            val endTimeLabel = String.format(
+                                Locale.getDefault(),
+                                "%02d:%02d",
+                                endHour,
+                                endMinute
+                            )
+                            GeneralOutlinedButton(
+                                label = endTimeLabel,
+                                vectorIcon = Icons.Outlined.TimerOff,
+                                iconContentDescription = endTimeLabel,
                                 onClick = {
                                     val dlg = TimePickerDialog.newInstance({ _, h, m, _ ->
                                         endHour = h
@@ -247,15 +251,7 @@ fun ScheduleCard() {
                                     activity?.let { dlg.show(it.supportFragmentManager, "to") }
                                 },
                                 modifier = Modifier.weight(1f).bounceClick()
-                            ) {
-                                Icon(
-                                    modifier = Modifier.size(SizeConstants.ButtonIconSize),
-                                    imageVector = Icons.Outlined.TimerOff,
-                                    contentDescription = null
-                                )
-                                ButtonIconSpacer()
-                                Text(String.format(Locale.getDefault(), "%02d:%02d", endHour, endMinute))
-                            }
+                            )
                         }
 
                         if (remaining.isNotEmpty()) {
