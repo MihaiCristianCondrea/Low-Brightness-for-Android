@@ -61,25 +61,29 @@ object AdsConstants {
             "ca-app-pub-5294151573817700/5249073936"
         }
 
-    // TODO: Double check all IDs
+    val APP_DETAILS_NATIVE_AD_UNIT_ID: String
+        get() = nativeAdUnitId(
+            "ca-app-pub-5294151573817700/8031005318"
+        )
+
     val NATIVE_AD_UNIT_ID: String
         get() = nativeAdUnitId(
-            "ca-app-pub-5294151573817700/3887025023"
+            "ca-app-pub-5294151573817700/6186111619"
         )
 
     val NO_DATA_NATIVE_AD_UNIT_ID: String
         get() = nativeAdUnitId(
-            "ca-app-pub-5294151573817700/6038545646"
+            "ca-app-pub-5294151573817700/7759542575"
         )
 
     val HELP_NATIVE_AD_UNIT_ID: String
         get() = nativeAdUnitId(
-            "ca-app-pub-5294151573817700/7219765370"
+            "ca-app-pub-5294151573817700/1975403869"
         )
 
     val SUPPORT_NATIVE_AD_UNIT_ID: String
         get() = nativeAdUnitId(
-            "ca-app-pub-5294151573817700/5929050229"
+            "ca-app-pub-5294151573817700/4419063361"
         )
 
     private fun nativeAdUnitId(releaseId: String): String =

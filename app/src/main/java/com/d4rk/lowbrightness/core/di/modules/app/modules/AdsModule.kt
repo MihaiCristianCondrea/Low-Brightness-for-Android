@@ -35,9 +35,14 @@ val adsModule: Module = module {
         )
     }
 
-    single<AdsConfig>(named(name = "large_banner")) { AdsConfig(bannerAdUnitId = AdsConstants.LARGE_BANNER_AD_UNIT_ID, adSize = AdSize.LARGE_BANNER) }
+    single<AdsConfig>(named(name = "banner")) { AdsConfig(bannerAdUnitId = AdsConstants.BANNER_AD_UNIT_ID, adSize = AdSize.BANNER) }
+    single<AdsConfig>(named(name = "banner_help_screen")) { AdsConfig(bannerAdUnitId = AdsConstants.HELP_SCREEN_BANNER_AD_UNIT_ID, adSize = AdSize.BANNER) }
     single<AdsConfig>(named(name = "banner_medium_rectangle")) { AdsConfig(bannerAdUnitId = AdsConstants.MEDIUM_RECTANGLE_BANNER_AD_UNIT_ID, adSize = AdSize.MEDIUM_RECTANGLE) }
+    single<AdsConfig>(named(name = "banner_no_data")) { AdsConfig(bannerAdUnitId = AdsConstants.NO_DATA_BANNER_AD_UNIT_ID, adSize = AdSize.BANNER) }
+    single<AdsConfig>(named(name = "banner_support_screen")) { AdsConfig(bannerAdUnitId = AdsConstants.SUPPORT_SCREEN_BANNER_AD_UNIT_ID, adSize = AdSize.BANNER) }
+    single<AdsConfig>(named(name = "large_banner")) { AdsConfig(bannerAdUnitId = AdsConstants.LARGE_BANNER_AD_UNIT_ID, adSize = AdSize.LARGE_BANNER) }
     single<AdsConfig>(named(name = "native_ad")) { AdsConfig(bannerAdUnitId = AdsConstants.NATIVE_AD_UNIT_ID) }
+    single<AdsConfig>(named(name = "app_details_native_ad")) { AdsConfig(bannerAdUnitId = AdsConstants.APP_DETAILS_NATIVE_AD_UNIT_ID) }
     single<AdsConfig>(named(name = "no_data_native_ad")) { AdsConfig(bannerAdUnitId = AdsConstants.NO_DATA_NATIVE_AD_UNIT_ID) }
     single<AdsConfig>(named(name = "help_large_banner_ad")) { AdsConfig(bannerAdUnitId = AdsConstants.HELP_NATIVE_AD_UNIT_ID, adSize = AdSize.LARGE_BANNER) }
     single<AdsConfig>(named(name = "support_native_ad")) { AdsConfig(bannerAdUnitId = AdsConstants.SUPPORT_NATIVE_AD_UNIT_ID) }
