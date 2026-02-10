@@ -12,7 +12,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.d4rk.lowbrightness.R
 import com.d4rk.lowbrightness.app.brightness.domain.receivers.NightScreenReceiver
 import com.d4rk.lowbrightness.appContext
-import com.d4rk.lowbrightness.ui.component.showToast
+import com.d4rk.lowbrightness.core.utils.extensions.showToast
 
 private const val NOTIFICATION_SERVICE_PERMISSION = "android.permission.NOTIFICATION_SERVICE"
 

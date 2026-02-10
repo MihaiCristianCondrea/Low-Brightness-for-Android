@@ -12,12 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import com.d4rk.android.libs.apptoolkit.app.theme.ui.style.AppThemeConfig
 import com.d4rk.android.libs.apptoolkit.app.theme.ui.style.colors.ColorPalette
 import com.d4rk.android.libs.apptoolkit.app.theme.ui.style.colors.ThemePaletteProvider
+import com.d4rk.android.libs.apptoolkit.core.BaseCoreManager
+import com.d4rk.android.libs.apptoolkit.core.data.local.datastore.CommonDataStore
+import com.d4rk.android.libs.apptoolkit.core.data.remote.ads.AdsCoreManager
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.colorscheme.StaticPaletteIds
 import com.d4rk.android.libs.apptoolkit.core.utils.extensions.date.isChristmasSeason
 import com.d4rk.android.libs.apptoolkit.core.utils.extensions.date.isHalloweenSeason
-import com.d4rk.android.libs.apptoolkit.data.core.BaseCoreManager
-import com.d4rk.android.libs.apptoolkit.data.core.ads.AdsCoreManager
-import com.d4rk.android.libs.apptoolkit.data.local.datastore.CommonDataStore
 import com.d4rk.lowbrightness.core.di.initializeKoin
 import com.d4rk.lowbrightness.core.utils.constants.ads.AdsConstants
 import kotlinx.coroutines.async

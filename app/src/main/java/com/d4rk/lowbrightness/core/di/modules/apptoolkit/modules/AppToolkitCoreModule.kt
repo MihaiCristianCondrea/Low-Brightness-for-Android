@@ -8,16 +8,17 @@ import com.d4rk.android.libs.apptoolkit.core.ui.model.AppVersionInfo
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
+import kotlin.text.toLong
 
-val appToolkitCoreModule: Module =
-    module {
-        single<StartupProvider> { AppStartupProvider() }
-        viewModel { StartupViewModel() }
+val appToolkitCoreModule: Module = module {
+    single<StartupProvider> { AppStartupProvider() }
+    single<AppVersionInfo> { AppVersionInfo(versionName = BuildConfig.VERSION_NAME, versionCode = BuildConfig.VERSION_CODE.toLong()) }
 
-        single<AppVersionInfo> {
-            AppVersionInfo(
-                BuildConfig.VERSION_NAME,
-                BuildConfig.VERSION_CODE.toLong()
-            )
-        }
+    viewModel {
+        StartupViewModel(
+            requestConsentUseCase = get(),
+            dispatchers = get(),
+            firebaseController = get()
+        )
     }
+}

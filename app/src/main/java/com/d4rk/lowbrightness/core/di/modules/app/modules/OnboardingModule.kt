@@ -8,7 +8,7 @@ import com.d4rk.android.libs.apptoolkit.app.onboarding.domain.usecases.CompleteO
 import com.d4rk.android.libs.apptoolkit.app.onboarding.domain.usecases.ObserveOnboardingCompletionUseCase
 import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.OnboardingViewModel
 import com.d4rk.android.libs.apptoolkit.app.onboarding.utils.interfaces.providers.OnboardingProvider
-import com.d4rk.android.libs.apptoolkit.data.local.datastore.CommonDataStore
+import com.d4rk.android.libs.apptoolkit.core.data.local.datastore.CommonDataStore
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -16,13 +16,15 @@ import org.koin.dsl.module
 val onboardingModule: Module = module {
     single<OnboardingProvider> { AppOnboardingProvider() }
     single<OnboardingPreferencesDataSource> { get<CommonDataStore>() }
-    single<OnboardingRepository> { OnboardingRepositoryImpl(dataStore = get()) }
-    single<ObserveOnboardingCompletionUseCase> { ObserveOnboardingCompletionUseCase(repository = get()) }
-    single<CompleteOnboardingUseCase> { CompleteOnboardingUseCase(repository = get()) }
+    single<OnboardingRepository> { OnboardingRepositoryImpl(dataStore = get(), firebaseController = get()) }
+    single<ObserveOnboardingCompletionUseCase> { ObserveOnboardingCompletionUseCase(repository = get(), firebaseController = get()) }
+    single<CompleteOnboardingUseCase> { CompleteOnboardingUseCase(repository = get(), firebaseController = get()) }
+
     viewModel {
         OnboardingViewModel(
             observeOnboardingCompletionUseCase = get(),
             completeOnboardingUseCase = get(),
+            requestConsentUseCase = get(),
             dispatchers = get(),
             firebaseController = get(),
         )

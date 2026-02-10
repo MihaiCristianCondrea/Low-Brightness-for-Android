@@ -8,9 +8,9 @@ import androidx.compose.material.icons.outlined.Brightness2
 import androidx.compose.material.icons.outlined.RemoveRedEye
 import androidx.compose.material.icons.outlined.SettingsBrightness
 import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.model.OnboardingPage
-import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.views.pages.CrashlyticsOnboardingPageTab
-import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.views.pages.FinalOnboardingPageTab
-import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.views.pages.ThemeOnboardingPageTab
+import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.views.pages.finish.FinishOnbardingPage
+import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.views.pages.firebase.FirebaseOnboardingPage
+import com.d4rk.android.libs.apptoolkit.app.onboarding.ui.views.pages.theme.ThemeOnboardingPageTab
 import com.d4rk.android.libs.apptoolkit.app.onboarding.utils.interfaces.providers.OnboardingProvider
 import com.d4rk.lowbrightness.R
 import com.d4rk.lowbrightness.app.main.ui.MainActivity
@@ -53,17 +53,16 @@ class AppOnboardingProvider : OnboardingProvider {
             ),
             OnboardingPage.CustomPage(
                 key = OnboardingKeys.CRASHLYTICS_OPTIONS,
-                content = {
-                    CrashlyticsOnboardingPageTab()
+                content = { isSelected ->
+                    FirebaseOnboardingPage(isSelected = isSelected)
                 }
             ),
             OnboardingPage.CustomPage(
                 key = OnboardingKeys.ONBOARDING_COMPLETE,
                 content = {
-                    FinalOnboardingPageTab()
+                    FinishOnbardingPage()
                 }
             ),
-
         ).filter {
             when (it) {
                 is OnboardingPage.DefaultPage -> it.isEnabled

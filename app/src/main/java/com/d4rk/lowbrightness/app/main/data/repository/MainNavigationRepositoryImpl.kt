@@ -7,12 +7,16 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
 import com.d4rk.android.libs.apptoolkit.app.main.domain.repository.NavigationRepository
 import com.d4rk.android.libs.apptoolkit.app.main.utils.constants.NavigationDrawerRoutes
+import com.d4rk.android.libs.apptoolkit.core.domain.repository.FirebaseController
 import com.d4rk.android.libs.apptoolkit.core.ui.model.navigation.NavigationDrawerItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onStart
 import com.d4rk.android.libs.apptoolkit.R as ToolkitR
 
-class MainNavigationRepositoryImpl : NavigationRepository {
+class MainNavigationRepositoryImpl(
+    private val firebaseController: FirebaseController,
+) : NavigationRepository {
     override fun getNavigationDrawerItems(): Flow<List<NavigationDrawerItem>> =
         flow {
             emit(
@@ -38,6 +42,11 @@ class MainNavigationRepositoryImpl : NavigationRepository {
                         route = NavigationDrawerRoutes.ROUTE_SHARE,
                     )
                 )
+            )
+        }.onStart {
+            firebaseController.logBreadcrumb(
+                message = "Navigation drawer items requested",
+                attributes = mapOf("source" to "MainNavigationRepositoryImpl"),
             )
         }
 }

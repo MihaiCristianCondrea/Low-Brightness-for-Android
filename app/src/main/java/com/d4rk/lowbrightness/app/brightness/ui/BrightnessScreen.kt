@@ -39,7 +39,7 @@ import com.d4rk.lowbrightness.app.brightness.ui.views.cards.ScheduleCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.cards.PromotedAppCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.ShowAccessibilityDisclosure
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.requestAllPermissionsWithAccessibilityAndShow
-import com.d4rk.lowbrightness.ui.component.showToast
+import com.d4rk.lowbrightness.core.utils.extensions.showToast
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.qualifier.named

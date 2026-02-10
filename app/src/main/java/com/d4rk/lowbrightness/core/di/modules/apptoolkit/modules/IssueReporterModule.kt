@@ -20,34 +20,24 @@ import org.koin.dsl.module
 
 private val githubTokenQualifier = qualifier<GithubToken>()
 
-val issueReporterModule: Module =
-    module {
-        single { IssueReporterRemoteDataSource(client = get()) }
-        single<DeviceInfoProvider> { DeviceInfoLocalDataSource(get(), get()) }
-        single<IssueReporterRepository> { IssueReporterRepositoryImpl(get(), get()) }
-        single { SendIssueReportUseCase(get(), get()) }
+val issueReporterModule: Module = module {
+    single<IssueReporterRemoteDataSource> { IssueReporterRemoteDataSource(client = get()) }
+    single<DeviceInfoProvider> { DeviceInfoLocalDataSource(get(), get()) }
+    single<IssueReporterRepository> { IssueReporterRepositoryImpl(get(), get(), get()) }
+    single<SendIssueReportUseCase> { SendIssueReportUseCase(get(), get(), get()) }
+    single<String>(qualifier = named(name = "github_repository")) { "Low-Brightness-for-Android" }
+    single<GithubTarget> { GithubTarget(username = GithubConstants.GITHUB_USER, repository = get(qualifier = named("github_repository"))) }
+    single<String>(qualifier = named("github_changelog")) { GithubConstants.githubChangelog(get<String>(named("github_repository"))) }
+    single<String>(githubTokenQualifier) { BuildConfig.GITHUB_TOKEN.toToken() }
 
-        single(qualifier = named(name = "github_repository")) { "Low-Brightness-for-Android" }
-        single<GithubTarget> {
-            GithubTarget(
-                username = GithubConstants.GITHUB_USER,
-                repository = get(qualifier = named("github_repository")),
-            )
-        }
-
-        single(qualifier = named("github_changelog")) {
-            GithubConstants.githubChangelog(get<String>(named("github_repository")))
-        }
-
-        single(githubTokenQualifier) { BuildConfig.GITHUB_TOKEN.toToken() }
-
-        viewModel {
-            IssueReporterViewModel(
-                sendIssueReport = get(),
-                githubTarget = get(),
-                githubToken = get(githubTokenQualifier),
-                deviceInfoProvider = get(),
-                firebaseController = get(),
-            )
-        }
+    viewModel {
+        IssueReporterViewModel(
+            sendIssueReport = get(),
+            githubTarget = get(),
+            githubToken = get(githubTokenQualifier),
+            deviceInfoProvider = get(),
+            firebaseController = get(),
+            dispatchers = get(),
+        )
     }
+}

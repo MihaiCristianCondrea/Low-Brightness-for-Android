@@ -12,26 +12,19 @@ import com.d4rk.lowbrightness.app.settings.settings.utils.providers.AppBuildInfo
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
-val aboutModule: Module =
-    module {
-        single<AboutSettingsProvider> { AppAboutSettingsProvider(context = get()) }
-        single<BuildInfoProvider> { AppBuildInfoProvider() }
-        single<AboutRepository> {
-            AboutRepositoryImpl(
-                deviceProvider = get(),
-                buildInfoProvider = get(),
-                context = get(),
-            )
-        }
-        single { GetAboutInfoUseCase(repository = get()) }
-        single { CopyDeviceInfoUseCase(repository = get()) }
+val aboutModule: Module = module {
+    single<AboutSettingsProvider> { AppAboutSettingsProvider(context = get()) }
+    single<BuildInfoProvider> { AppBuildInfoProvider() }
+    single<AboutRepository> { AboutRepositoryImpl(deviceProvider = get(), buildInfoProvider = get(), context = get(), firebaseController = get()) }
+    single<GetAboutInfoUseCase> { GetAboutInfoUseCase(repository = get(), firebaseController = get()) }
+    single<CopyDeviceInfoUseCase> { CopyDeviceInfoUseCase(repository = get(), firebaseController = get()) }
 
-        viewModel {
-            AboutViewModel(
-                getAboutInfo = get(),
-                copyDeviceInfo = get(),
-                dispatchers = get(),
-                firebaseController = get(),
-            )
-        }
+    viewModel {
+        AboutViewModel(
+            getAboutInfo = get(),
+            copyDeviceInfo = get(),
+            dispatchers = get(),
+            firebaseController = get(),
+        )
     }
+}

@@ -17,6 +17,7 @@ val brightnessModule: Module = module {
         BrightnessViewModel(
             getPromotedAppUseCase = get(),
             dispatchers = get(),
+            firebaseController = get(),
         )
     }
 }

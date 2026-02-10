@@ -9,18 +9,18 @@ import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
-val supportModule: Module =
-    module {
-        single(createdAtStart = true) {
-            val dispatchers = get<DispatcherProvider>()
-            BillingRepository.getInstance(
-                context = get(),
-                dispatchers = dispatchers,
-                externalScope = CoroutineScope(SupervisorJob() + dispatchers.io)
-            )
-        }
-
-        viewModel {
-            SupportViewModel(billingRepository = get(), firebaseController = get())
-        }
+val supportModule: Module = module {
+    single<BillingRepository>(createdAtStart = true) {
+        val dispatchers = get<DispatcherProvider>()
+        BillingRepository.getInstance(
+            context = get(),
+            dispatchers = dispatchers,
+            firebaseController = get(),
+            externalScope = CoroutineScope(SupervisorJob() + dispatchers.io)
+        )
     }
+
+    viewModel {
+        SupportViewModel(billingRepository = get(), firebaseController = get())
+    }
+}

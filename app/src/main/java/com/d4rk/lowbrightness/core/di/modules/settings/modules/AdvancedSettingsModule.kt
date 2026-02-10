@@ -11,7 +11,7 @@ import org.koin.dsl.module
 
 val advancedSettingsModule: Module = module {
     single<AdvancedSettingsProvider> { AppAdvancedSettingsProvider(context = get()) }
-    single<CacheRepository> { CacheRepositoryImpl(context = get()) }
+    single<CacheRepository> { CacheRepositoryImpl(context = get(), firebaseController = get()) }
 
     viewModel {
         AdvancedSettingsViewModel(
