@@ -1,6 +1,6 @@
 [versions]
 agp = "9.0.0"
-kotlin = "2.3.0"
+kotlin = "2.3.10"
 aboutlibraries = "14.0.0-b02"
 google-services = "4.4.4"
 google-firebase-crashlytics = "3.0.6"
