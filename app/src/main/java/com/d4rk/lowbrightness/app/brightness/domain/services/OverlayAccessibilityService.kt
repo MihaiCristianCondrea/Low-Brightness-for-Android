@@ -8,7 +8,6 @@ import android.view.accessibility.AccessibilityManager
 import android.provider.Settings
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
-import com.d4rk.lowbrightness.BuildConfig
 import com.d4rk.lowbrightness.app.brightness.domain.util.screenHeight
 import com.d4rk.lowbrightness.app.brightness.domain.util.screenWidth
 import com.d4rk.lowbrightness.app.brightness.ui.views.closeNightScreen
@@ -72,19 +71,13 @@ fun isAccessibilityServiceRunning(context: Context): Boolean {
         return true
     }
 
-    val prefString: String? = Settings.Secure.getString(
+    val enabledServicesSetting = Settings.Secure.getString(
         context.contentResolver,
         Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
-    )
+    ) ?: return false
 
-    val raysAccessibilityServiceName = OverlayAccessibilityService::class.java.name
-
-    val patterns = arrayOf(
-        "${BuildConfig.APPLICATION_ID}/${raysAccessibilityServiceName}",
-        raysAccessibilityServiceName.replaceFirst(
-            context.packageName.substringBeforeLast(".debug"),
-            "${BuildConfig.APPLICATION_ID}/"
-        )
-    )
-    return prefString != null && patterns.any { prefString.contains(it) }
+    val expectedServiceId = "${context.packageName}/${OverlayAccessibilityService::class.java.name}"
+    return enabledServicesSetting.split(':').any { service ->
+        service.equals(expectedServiceId, ignoreCase = true)
+    }
 }

@@ -138,14 +138,7 @@ fun Context.shouldSuggestBatteryOptimizationDialog(): Boolean {
 
 fun Context.openBatteryOptimizationSettings(): Boolean {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false
-
-    val requestIntent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-        data = Uri.parse("package:$packageName")
-    }
-
-    return startActivitySafely(requestIntent) || startActivitySafely(
-        Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
-    )
+    return startActivitySafely(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
 }
 
 fun Context.openPowerSaverSettings(): Boolean =

@@ -41,7 +41,7 @@ class NightScreenReceiver : BroadcastReceiver() {
             val intent = Intent(context , NightScreenReceiver::class.java)
             intent.`package` = context.packageName
             intent.action = action
-            intent.component = ComponentName(context.packageName , "com.d4rk.lowbrightness.ui.NightScreenReceiver")
+            intent.component = ComponentName(context.packageName, NightScreenReceiver::class.java.name)
             context.sendBroadcast(intent)
         }
     }

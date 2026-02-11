@@ -15,6 +15,9 @@ import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.dialogIsShowing
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.getNightScreenDialog
 import com.d4rk.lowbrightness.appContext
 
+private const val PREF_ORIGIN_BRIGHTNESS = "originBrightness"
+private const val PREF_ORIGIN_BRIGHTNESS_MODE = "originBrightnessMode"
+
 fun showDialogAndNightScreen() {
     if (dialogIsShowing) return
     if (appContext.isSystemAlertWindowGranted()) {
@@ -89,14 +92,14 @@ var keepScreenOn = sharedPreferences().getBoolean("keepScreenOn", false)
         sharedPreferences().editor { putBoolean("keepScreenOn", value) }
     }
 
-private var originBrightness: Int = Settings.System.getInt(
-    appContext.contentResolver,
-    Settings.System.SCREEN_BRIGHTNESS
+private var originBrightness: Int = sharedPreferences().getInt(
+    PREF_ORIGIN_BRIGHTNESS,
+    Settings.System.getInt(appContext.contentResolver, Settings.System.SCREEN_BRIGHTNESS)
 )
 
-private var originBrightnessMode: Int = Settings.System.getInt(
-    appContext.contentResolver,
-    Settings.System.SCREEN_BRIGHTNESS_MODE
+private var originBrightnessMode: Int = sharedPreferences().getInt(
+    PREF_ORIGIN_BRIGHTNESS_MODE,
+    Settings.System.getInt(appContext.contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE)
 )
 
 var runAsScheduled = sharedPreferences().getBoolean("runAsScheduled", false)
@@ -124,6 +127,10 @@ fun applyScreenBrightness(value: Boolean) {
             appContext.contentResolver,
             Settings.System.SCREEN_BRIGHTNESS_MODE
         )
+        sharedPreferences().editor {
+            putInt(PREF_ORIGIN_BRIGHTNESS, originBrightness)
+            putInt(PREF_ORIGIN_BRIGHTNESS_MODE, originBrightnessMode)
+        }
         Settings.System.putInt(
             appContext.contentResolver,
             Settings.System.SCREEN_BRIGHTNESS,
@@ -135,6 +142,10 @@ fun applyScreenBrightness(value: Boolean) {
             Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
         )
     } else {
+        val prefs = sharedPreferences()
+        val savedBrightness = prefs.getInt(PREF_ORIGIN_BRIGHTNESS, originBrightness)
+        val savedMode = prefs.getInt(PREF_ORIGIN_BRIGHTNESS_MODE, originBrightnessMode)
+
         if (Settings.System.getInt(
                 appContext.contentResolver, Settings.System.SCREEN_BRIGHTNESS
             ) == 0
@@ -142,7 +153,7 @@ fun applyScreenBrightness(value: Boolean) {
             Settings.System.putInt(
                 appContext.contentResolver,
                 Settings.System.SCREEN_BRIGHTNESS,
-                originBrightness,
+                savedBrightness,
             )
         }
         if (Settings.System.getInt(
@@ -152,7 +163,7 @@ fun applyScreenBrightness(value: Boolean) {
             Settings.System.putInt(
                 appContext.contentResolver,
                 Settings.System.SCREEN_BRIGHTNESS_MODE,
-                originBrightnessMode,
+                savedMode,
             )
         }
     }

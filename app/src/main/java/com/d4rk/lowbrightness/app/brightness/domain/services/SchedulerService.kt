@@ -24,8 +24,14 @@ object SchedulerService {
         context.sharedPreferences().getBoolean(PREF_SCHEDULER_ENABLED, false)
 
     fun enable(context: Context) {
-        if (isEnabled(context)) return
         context.sharedPreferences().edit { putBoolean(PREF_SCHEDULER_ENABLED, true) }
+        runAsScheduled = true
+        scheduleWork(context)
+        evaluateSchedule(context)
+    }
+
+    fun restoreStateIfEnabled(context: Context) {
+        if (!isEnabled(context)) return
         runAsScheduled = true
         scheduleWork(context)
         evaluateSchedule(context)
@@ -105,7 +111,7 @@ object SchedulerService {
     }
 
     private fun scheduleWork(context: Context) {
-        val request = PeriodicWorkRequestBuilder<SchedulerWorker>(1, TimeUnit.HOURS).build()
+        val request = PeriodicWorkRequestBuilder<SchedulerWorker>(15, TimeUnit.MINUTES).build()
         WorkManager.getInstance(context.applicationContext).enqueueUniquePeriodicWork(
             WORK_NAME,
             ExistingPeriodicWorkPolicy.UPDATE,

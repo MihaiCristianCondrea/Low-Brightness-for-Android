@@ -19,6 +19,7 @@ import com.d4rk.android.libs.apptoolkit.core.utils.constants.colorscheme.StaticP
 import com.d4rk.android.libs.apptoolkit.core.utils.extensions.date.isChristmasSeason
 import com.d4rk.android.libs.apptoolkit.core.utils.extensions.date.isHalloweenSeason
 import com.d4rk.lowbrightness.core.di.initializeKoin
+import com.d4rk.lowbrightness.app.brightness.domain.services.SchedulerService
 import com.d4rk.lowbrightness.core.utils.constants.ads.AdsConstants
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -43,6 +44,7 @@ class LowBrightness : BaseCoreManager(), DefaultLifecycleObserver {
         applyDefaultColorPalette()
         super<BaseCoreManager>.onCreate()
         appContext = applicationContext
+        SchedulerService.restoreStateIfEnabled(applicationContext)
         registerActivityLifecycleCallbacks(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(observer = this)
     }
