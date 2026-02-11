@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">Notificarea menține serviciul de întunecare în funcțiune, astfel încât să nu fie oprit de sistem.</string>
     <string name="question_9" translatable="false">Cum pot contacta suportul?</string>
     <string name="summary_preference_faq_9" translatable="false">Trimiteți feedback din aplicație sau deschideți o problemă (issue) pe GitHub.</string>
+    <string name="battery_optimization_dialog_title">Îmbunătățește fiabilitatea în fundal</string>
+    <string name="battery_optimization_dialog_message">Optimizarea bateriei sau modul de economisire a energiei poate opri serviciul de estompare pe unele dispozitive. Poți dezactiva optimizarea pentru această aplicație, poți deschide setările de economisire a energiei sau poți continua fără modificări.</string>
+    <string name="disable_battery_optimization">Dezactivează optimizarea bateriei</string>
+    <string name="open_power_saver_settings">Deschide setările de economisire a energiei</string>
+    <string name="continue_without_changes">Continuă fără modificări</string>
 </resources>

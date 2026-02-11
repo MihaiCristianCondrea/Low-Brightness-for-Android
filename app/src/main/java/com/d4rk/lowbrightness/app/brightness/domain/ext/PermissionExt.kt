@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.PowerManager
 import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
@@ -41,7 +42,7 @@ fun Activity.requestSystemAlertWindowPermission(
             Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
             Uri.parse("package:$packageName")
         )
-        startActivity(intent)
+        startActivitySafely(intent)
         onDenied(false)
     }
 }
@@ -81,7 +82,7 @@ fun Activity.requestAllPermissions(
             Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
             Uri.parse("package:$packageName")
         )
-        startActivity(intent)
+        startActivitySafely(intent)
         requested.add(Manifest.permission.SYSTEM_ALERT_WINDOW)
         allGranted = false
     }
@@ -96,7 +97,7 @@ fun Activity.requestAllPermissions(
         val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
             putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
         }
-        startActivity(intent)
+        startActivitySafely(intent)
         requested.add(NOTIFICATION_SERVICE_PERMISSION)
         allGranted = false
     }
@@ -106,7 +107,7 @@ fun Activity.requestAllPermissions(
             Settings.ACTION_MANAGE_WRITE_SETTINGS,
             Uri.parse("package:$packageName")
         )
-        startActivity(intent)
+        startActivitySafely(intent)
         requested.add(Manifest.permission.WRITE_SETTINGS)
         allGranted = false
     }
@@ -117,6 +118,42 @@ fun Activity.requestAllPermissions(
         onDenied(requested, false)
     }
 }
+
+
+private fun Context.startActivitySafely(intent: Intent): Boolean = runCatching {
+    val launchIntent = intent.apply {
+        if (this@startActivitySafely !is Activity) {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+    }
+    startActivity(launchIntent)
+    true
+}.getOrDefault(false)
+
+fun Context.shouldSuggestBatteryOptimizationDialog(): Boolean {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false
+    val powerManager = getSystemService(Context.POWER_SERVICE) as? PowerManager ?: return false
+    return !powerManager.isIgnoringBatteryOptimizations(packageName)
+}
+
+fun Context.openBatteryOptimizationSettings(): Boolean {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false
+
+    val requestIntent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+        data = Uri.parse("package:$packageName")
+    }
+
+    return startActivitySafely(requestIntent) || startActivitySafely(
+        Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+    )
+}
+
+fun Context.openPowerSaverSettings(): Boolean =
+    startActivitySafely(Intent(Settings.ACTION_BATTERY_SAVER_SETTINGS)) ||
+        startActivitySafely(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
+
+fun Context.openAccessibilitySettings(): Boolean =
+    startActivitySafely(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
 
 fun Activity.requestAllPermissionsAndShow(
     onDenied: (permissions: MutableList<String>?, never: Boolean) -> Unit = onDeniedCallback,

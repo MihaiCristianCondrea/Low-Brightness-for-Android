@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">The notification keeps the dimming service running so it is not killed by the system.</string>
     <string name="question_9" translatable="false">How can I contact support?</string>
     <string name="summary_preference_faq_9" translatable="false">Send feedback from the app or open an issue on GitHub.</string>
+    <string name="battery_optimization_dialog_title">ব্যাকগ্রাউন্ডে নির্ভরযোগ্যতা উন্নত করুন</string>
+    <string name="battery_optimization_dialog_message">কিছু ডিভাইসে ব্যাটারি অপ্টিমাইজেশন বা পাওয়ার সেভার ডিমিং সার্ভিস বন্ধ করে দিতে পারে। আপনি এই অ্যাপের জন্য অপ্টিমাইজেশন বন্ধ করতে পারেন, পাওয়ার সেভার সেটিংস খুলতে পারেন, অথবা কোনো পরিবর্তন ছাড়াই চালিয়ে যেতে পারেন।</string>
+    <string name="disable_battery_optimization">ব্যাটারি অপ্টিমাইজেশন বন্ধ করুন</string>
+    <string name="open_power_saver_settings">পাওয়ার সেভার সেটিংস খুলুন</string>
+    <string name="continue_without_changes">পরিবর্তন ছাড়াই চালিয়ে যান</string>
 </resources>

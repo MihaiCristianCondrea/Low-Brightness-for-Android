@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">A notificação mantém o serviço de escurecimento em execução para que não seja encerrado pelo sistema.</string>
     <string name="question_9" translatable="false">Como posso contatar o suporte?</string>
     <string name="summary_preference_faq_9" translatable="false">Envie feedback pelo aplicativo ou abra uma "issue" no GitHub.</string>
+    <string name="battery_optimization_dialog_title">Melhorar a confiabilidade em segundo plano</string>
+    <string name="battery_optimization_dialog_message">A otimização de bateria ou o modo de economia de energia pode interromper o serviço de escurecimento em alguns dispositivos. Você pode desativar a otimização para este app, abrir as configurações de economia de energia ou continuar sem alterações.</string>
+    <string name="disable_battery_optimization">Desativar otimização de bateria</string>
+    <string name="open_power_saver_settings">Abrir configurações de economia de energia</string>
+    <string name="continue_without_changes">Continuar sem alterações</string>
 </resources>

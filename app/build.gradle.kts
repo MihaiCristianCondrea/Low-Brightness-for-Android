@@ -158,7 +158,6 @@ dependencies {
     }
 
     implementation(dependencyNotation = libs.preference.ktx)
-    implementation(dependencyNotation = libs.materialdatetimepicker)
     implementation(dependencyNotation = libs.compose.material3.window.size)
     implementation(dependencyNotation = libs.accompanist.navigation.animation)
     implementation(dependencyNotation = libs.profileinstaller)

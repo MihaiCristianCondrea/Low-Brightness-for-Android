@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">सूचना डिमिंग सेवा को चालू रखती है ताकि इसे सिस्टम द्वारा समाप्त न किया जाए।</string>
     <string name="question_9" translatable="false">मैं समर्थन से कैसे संपर्क कर सकता हूँ?</string>
     <string name="summary_preference_faq_9" translatable="false">ऐप से प्रतिक्रिया भेजें या GitHub पर एक समस्या खोलें।</string>
+    <string name="battery_optimization_dialog_title">बैकग्राउंड विश्वसनीयता सुधारें</string>
+    <string name="battery_optimization_dialog_message">कुछ डिवाइस पर बैटरी ऑप्टिमाइज़ेशन या पावर सेवर डिमिंग सेवा को रोक सकता है। आप इस ऐप के लिए ऑप्टिमाइज़ेशन बंद कर सकते हैं, पावर सेवर सेटिंग्स खोल सकते हैं, या बिना बदलाव जारी रख सकते हैं।</string>
+    <string name="disable_battery_optimization">बैटरी ऑप्टिमाइज़ेशन बंद करें</string>
+    <string name="open_power_saver_settings">पावर सेवर सेटिंग्स खोलें</string>
+    <string name="continue_without_changes">बिना बदलाव जारी रखें</string>
 </resources>

@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">การแจ้งเตือนช่วยให้บริการหรี่แสงทำงานต่อไปและไม่ถูกปิดโดยระบบ</string>
     <string name="question_9" translatable="false">ฉันจะติดต่อฝ่ายสนับสนุนได้อย่างไร?</string>
     <string name="summary_preference_faq_9" translatable="false">ส่งความคิดเห็นจากแอปหรือเปิด issue บน GitHub</string>
+    <string name="battery_optimization_dialog_title">ปรับปรุงความเสถียรในการทำงานเบื้องหลัง</string>
+    <string name="battery_optimization_dialog_message">การเพิ่มประสิทธิภาพแบตเตอรี่หรือโหมดประหยัดพลังงานอาจหยุดบริการหรี่แสงบนอุปกรณ์บางรุ่น คุณสามารถปิดการเพิ่มประสิทธิภาพสำหรับแอปนี้ เปิดการตั้งค่าประหยัดพลังงาน หรือดำเนินการต่อโดยไม่เปลี่ยนแปลง</string>
+    <string name="disable_battery_optimization">ปิดการเพิ่มประสิทธิภาพแบตเตอรี่</string>
+    <string name="open_power_saver_settings">เปิดการตั้งค่าประหยัดพลังงาน</string>
+    <string name="continue_without_changes">ดำเนินการต่อโดยไม่เปลี่ยนแปลง</string>
 </resources>

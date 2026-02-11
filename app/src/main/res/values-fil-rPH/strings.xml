@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">Pinapanatili ng notipikasyon na tumatakbo ang serbisyo ng pagdidilim upang hindi ito patayin ng system.</string>
     <string name="question_9" translatable="false">Paano ako makikipag-ugnayan sa suporta?</string>
     <string name="summary_preference_faq_9" translatable="false">Magpadala ng feedback mula sa app o magbukas ng isyu sa GitHub.</string>
+    <string name="battery_optimization_dialog_title">Pagbutihin ang pagiging maaasahan sa background</string>
+    <string name="battery_optimization_dialog_message">Maaaring ihinto ng battery optimization o power saver ang dimming service sa ilang device. Maaari mong i-disable ang optimization para sa app na ito, buksan ang power saver settings, o magpatuloy nang walang pagbabago.</string>
+    <string name="disable_battery_optimization">I-disable ang battery optimization</string>
+    <string name="open_power_saver_settings">Buksan ang power saver settings</string>
+    <string name="continue_without_changes">Magpatuloy nang walang pagbabago</string>
 </resources>

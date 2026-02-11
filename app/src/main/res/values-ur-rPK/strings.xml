@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">اطلاع مدھم کرنے والی سروس کو چلتا رکھتی ہے تاکہ اسے سسٹم کے ذریعے بند نہ کیا جائے۔</string>
     <string name="question_9" translatable="false">میں سپورٹ سے کیسے رابطہ کر سکتا ہوں؟</string>
     <string name="summary_preference_faq_9" translatable="false">ایپ سے فیڈ بیک بھیجیں یا GitHub پر ایک مسئلہ (issue) کھولیں۔</string>
+    <string name="battery_optimization_dialog_title">پس منظر میں قابلِ اعتماد کارکردگی بہتر بنائیں</string>
+    <string name="battery_optimization_dialog_message">کچھ ڈیوائسز پر بیٹری آپٹیمائزیشن یا پاور سیور ڈِمنگ سروس کو روک سکتا ہے۔ آپ اس ایپ کے لیے آپٹیمائزیشن بند کر سکتے ہیں، پاور سیور سیٹنگز کھول سکتے ہیں، یا بغیر تبدیلی کے جاری رکھ سکتے ہیں۔</string>
+    <string name="disable_battery_optimization">بیٹری آپٹیمائزیشن بند کریں</string>
+    <string name="open_power_saver_settings">پاور سیور سیٹنگز کھولیں</string>
+    <string name="continue_without_changes">بغیر تبدیلی کے جاری رکھیں</string>
 </resources>

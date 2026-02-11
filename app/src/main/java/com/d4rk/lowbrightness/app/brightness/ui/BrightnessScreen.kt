@@ -27,8 +27,12 @@ import com.d4rk.android.libs.apptoolkit.core.ui.views.layouts.ScreenStateHandler
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.ui.SizeConstants
 import com.d4rk.lowbrightness.R
 import com.d4rk.lowbrightness.app.brightness.domain.ext.activity
+import com.d4rk.lowbrightness.app.brightness.domain.ext.openAccessibilitySettings
+import com.d4rk.lowbrightness.app.brightness.domain.ext.openBatteryOptimizationSettings
+import com.d4rk.lowbrightness.app.brightness.domain.ext.openPowerSaverSettings
 import com.d4rk.lowbrightness.app.brightness.domain.ext.plus
 import com.d4rk.lowbrightness.app.brightness.domain.ext.requestAllPermissions
+import com.d4rk.lowbrightness.app.brightness.domain.ext.shouldSuggestBatteryOptimizationDialog
 import com.d4rk.lowbrightness.app.brightness.domain.services.isAccessibilityServiceRunning
 import com.d4rk.lowbrightness.app.brightness.ui.state.BrightnessUiState
 import com.d4rk.lowbrightness.app.brightness.ui.views.cards.ActionsCard
@@ -38,6 +42,7 @@ import com.d4rk.lowbrightness.app.brightness.ui.views.cards.IntensityCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.cards.ScheduleCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.cards.PromotedAppCard
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.ShowAccessibilityDisclosure
+import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.ShowBatteryOptimizationDialog
 import com.d4rk.lowbrightness.app.brightness.ui.views.dialogs.requestAllPermissionsWithAccessibilityAndShow
 import com.d4rk.lowbrightness.core.utils.extensions.showToast
 import org.koin.compose.koinInject
@@ -61,7 +66,17 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
         rememberUpdatedState(stringResource(R.string.no_accessibility_permission))
 
     val showAccessibilityDialog = remember { mutableStateOf(false) }
+    val showBatteryOptimizationDialog = remember { mutableStateOf(false) }
     val runAfterPermission = remember { mutableStateOf(false) }
+
+    val runNightScreenFlow = {
+        if (isAccessibilityServiceRunning(context)) {
+            requestAllPermissionsWithAccessibilityAndShow(context)
+        } else {
+            runAfterPermission.value = true
+            showAccessibilityDialog.value = true
+        }
+    }
 
     val startForResult = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -87,11 +102,10 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
                 mediumRectangleAdConfig = mediumRectangleAdConfig,
                 largeBannerAdConfig = largeBannerAdConfig,
                 onRunNightScreenClick = {
-                    if (isAccessibilityServiceRunning(context)) {
-                        requestAllPermissionsWithAccessibilityAndShow(context)
+                    if (context.shouldSuggestBatteryOptimizationDialog()) {
+                        showBatteryOptimizationDialog.value = true
                     } else {
-                        runAfterPermission.value = true
-                        showAccessibilityDialog.value = true
+                        runNightScreenFlow()
                     }
                 },
                 onRequestPermissionsClick = {
@@ -111,11 +125,10 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
                 mediumRectangleAdConfig = mediumRectangleAdConfig,
                 largeBannerAdConfig = largeBannerAdConfig,
                 onRunNightScreenClick = {
-                    if (isAccessibilityServiceRunning(context)) {
-                        requestAllPermissionsWithAccessibilityAndShow(context)
+                    if (context.shouldSuggestBatteryOptimizationDialog()) {
+                        showBatteryOptimizationDialog.value = true
                     } else {
-                        runAfterPermission.value = true
-                        showAccessibilityDialog.value = true
+                        runNightScreenFlow()
                     }
                 },
                 onRequestPermissionsClick = {
@@ -135,11 +148,10 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
                 mediumRectangleAdConfig = mediumRectangleAdConfig,
                 largeBannerAdConfig = largeBannerAdConfig,
                 onRunNightScreenClick = {
-                    if (isAccessibilityServiceRunning(context)) {
-                        requestAllPermissionsWithAccessibilityAndShow(context)
+                    if (context.shouldSuggestBatteryOptimizationDialog()) {
+                        showBatteryOptimizationDialog.value = true
                     } else {
-                        runAfterPermission.value = true
-                        showAccessibilityDialog.value = true
+                        runNightScreenFlow()
                     }
                 },
                 onRequestPermissionsClick = {
@@ -159,7 +171,32 @@ fun BrightnessScreen(paddingValues: PaddingValues) {
             onDismissRequest = { showAccessibilityDialog.value = false },
             onContinue = {
                 showAccessibilityDialog.value = false
-                startForResult.launch(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+                val accessibilitySettingsIntent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                runCatching {
+                    startForResult.launch(accessibilitySettingsIntent)
+                }.onFailure {
+                    if (!context.openAccessibilitySettings()) {
+                        noAccessibilityPermissionText.value.showToast()
+                    }
+                }
+            }
+        )
+    }
+
+    if (showBatteryOptimizationDialog.value) {
+        ShowBatteryOptimizationDialog(
+            onDismissRequest = { showBatteryOptimizationDialog.value = false },
+            onContinue = {
+                showBatteryOptimizationDialog.value = false
+                runNightScreenFlow()
+            },
+            onDisableBatteryOptimization = {
+                showBatteryOptimizationDialog.value = false
+                context.openBatteryOptimizationSettings()
+                runNightScreenFlow()
+            },
+            onOpenPowerSaverSettings = {
+                context.openPowerSaverSettings()
             }
         )
     }

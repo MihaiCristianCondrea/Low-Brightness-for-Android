@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">La notifica mantiene in esecuzione il servizio di oscuramento in modo che non venga terminato dal sistema.</string>
     <string name="question_9" translatable="false">Come posso contattare il supporto?</string>
     <string name="summary_preference_faq_9" translatable="false">Invia un feedback dall\'app o apri una issue su GitHub.</string>
+    <string name="battery_optimization_dialog_title">Migliora l\'affidabilità in background</string>
+    <string name="battery_optimization_dialog_message">L\'ottimizzazione della batteria o il risparmio energetico può interrompere il servizio di oscuramento su alcuni dispositivi. Puoi disattivare l\'ottimizzazione per questa app, aprire le impostazioni di risparmio energetico oppure continuare senza modifiche.</string>
+    <string name="disable_battery_optimization">Disattiva ottimizzazione batteria</string>
+    <string name="open_power_saver_settings">Apri impostazioni risparmio energetico</string>
+    <string name="continue_without_changes">Continua senza modifiche</string>
 </resources>

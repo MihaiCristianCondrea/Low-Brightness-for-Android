@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">該通知能讓調光服務持續運作，以免被系統終止。</string>
     <string name="question_9" translatable="false">我該如何聯繫支援？</string>
     <string name="summary_preference_faq_9" translatable="false">從應用程式內傳送回饋，或在 GitHub 上開啟一個 issue。</string>
+    <string name="battery_optimization_dialog_title">提升背景運行可靠性</string>
+    <string name="battery_optimization_dialog_message">在某些裝置上，電池最佳化或省電模式可能會停止調光服務。你可以停用此應用程式的最佳化、開啟省電設定，或在不變更的情況下繼續。</string>
+    <string name="disable_battery_optimization">停用電池最佳化</string>
+    <string name="open_power_saver_settings">開啟省電設定</string>
+    <string name="continue_without_changes">不變更並繼續</string>
 </resources>

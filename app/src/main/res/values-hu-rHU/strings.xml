@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">Az értesítés fenntartja a sötétítő szolgáltatás működését, hogy a rendszer ne állítsa le.</string>
     <string name="question_9" translatable="false">Hogyan léphetek kapcsolatba a támogatással?</string>
     <string name="summary_preference_faq_9" translatable="false">Küldjön visszajelzést az alkalmazásból, vagy nyisson egy hibajegyet a GitHubon.</string>
+    <string name="battery_optimization_dialog_title">Háttérbeli megbízhatóság javítása</string>
+    <string name="battery_optimization_dialog_message">Az akkumulátor-optimalizálás vagy energiatakarékos mód egyes eszközökön leállíthatja a sötétítő szolgáltatást. Kikapcsolhatja az optimalizálást ehhez az alkalmazáshoz, megnyithatja az energiatakarékossági beállításokat, vagy folytathatja módosítás nélkül.</string>
+    <string name="disable_battery_optimization">Akkumulátor-optimalizálás kikapcsolása</string>
+    <string name="open_power_saver_settings">Energiatakarékossági beállítások megnyitása</string>
+    <string name="continue_without_changes">Folytatás módosítás nélkül</string>
 </resources>

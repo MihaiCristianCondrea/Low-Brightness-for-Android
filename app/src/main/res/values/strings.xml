@@ -20,7 +20,7 @@
 
     <!-- Brightness screen -->
     <string name="intensity">Brightness optimization level</string>
-    <string name="summary_brightness">Define how strong the overlay filter should be. Higher levels are recommended for night time reading.</string>
+    <string name="summary_brightness">Define how strong the overlay filter should be. Higher levels are recommended for nighttime reading.</string>
     <string name="customize_overlay_color">Filter overlay color</string>
     <string name="summary_filter">Select the color that you think is least distracting to your eyes and has enough contrast with the apps, typically visible on the screen.</string>
     <string name="color_dialog_title">Color</string>
@@ -34,6 +34,11 @@
     <string name="actions">Actions</string>
     <string name="run_night_screen">Run</string>
     <string name="request_permissions">Request permissions</string>
+    <string name="battery_optimization_dialog_title">Improve reliability in background</string>
+    <string name="battery_optimization_dialog_message">Battery optimization or power saver may stop the dimming service on some devices. You can disable optimization for this app, open power saver settings, or continue without changes.</string>
+    <string name="disable_battery_optimization">Disable battery optimization</string>
+    <string name="open_power_saver_settings">Open power saver settings</string>
+    <string name="continue_without_changes">Continue without changes</string>
     <string name="accessibility_permission_disclosure_title">Accessibility permission required</string>
     <string name="accessibility_permission_disclosure_message">Low Brightness uses an Accessibility Service to keep the dimming overlay visible over other apps. This service does not collect or share your data. On the next screen, enable Low Brightness in the Accessibility settings.</string>
     <string name="no_accessibility_permission">No accessibility permission</string>

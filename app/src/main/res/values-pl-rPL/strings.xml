@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">Powiadomienie utrzymuje działanie usługi przyciemniania, aby system jej nie zamknął.</string>
     <string name="question_9" translatable="false">Jak mogę skontaktować się z pomocą techniczną?</string>
     <string name="summary_preference_faq_9" translatable="false">Wyślij opinię z aplikacji lub otwórz zgłoszenie (issue) na GitHubie.</string>
+    <string name="battery_optimization_dialog_title">Popraw niezawodność działania w tle</string>
+    <string name="battery_optimization_dialog_message">Optymalizacja baterii lub tryb oszczędzania energii może zatrzymać usługę przyciemniania na niektórych urządzeniach. Możesz wyłączyć optymalizację dla tej aplikacji, otworzyć ustawienia oszczędzania energii lub kontynuować bez zmian.</string>
+    <string name="disable_battery_optimization">Wyłącz optymalizację baterii</string>
+    <string name="open_power_saver_settings">Otwórz ustawienia oszczędzania energii</string>
+    <string name="continue_without_changes">Kontynuuj bez zmian</string>
 </resources>

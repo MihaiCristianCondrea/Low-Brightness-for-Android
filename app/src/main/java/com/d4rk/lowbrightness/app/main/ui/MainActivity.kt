@@ -23,6 +23,7 @@ import com.d4rk.android.libs.apptoolkit.app.theme.ui.style.AppTheme
 import com.d4rk.android.libs.apptoolkit.core.di.DispatcherProvider
 import com.d4rk.android.libs.apptoolkit.core.utils.extensions.context.openActivity
 import com.d4rk.lowbrightness.R
+import com.d4rk.lowbrightness.app.brightness.domain.ext.openAccessibilitySettings
 import com.d4rk.lowbrightness.app.brightness.domain.ext.requestAllPermissionsAndShow
 import com.d4rk.lowbrightness.app.brightness.domain.ext.requestSystemAlertWindowPermission
 import com.d4rk.lowbrightness.app.brightness.domain.receivers.NightScreenReceiver
@@ -129,9 +130,15 @@ class MainActivity : AppCompatActivity() {
                         onDismissRequest = { showAccessibilityDialog = false },
                         onContinue = {
                             showAccessibilityDialog = false
-                            accessibilitySettingsLauncher.launch(
+                            val accessibilitySettingsIntent =
                                 Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                            )
+                            runCatching {
+                                accessibilitySettingsLauncher.launch(accessibilitySettingsIntent)
+                            }.onFailure {
+                                if (!openAccessibilitySettings()) {
+                                    getString(R.string.no_accessibility_permission).showToast()
+                                }
+                            }
                         }
                     )
                 }

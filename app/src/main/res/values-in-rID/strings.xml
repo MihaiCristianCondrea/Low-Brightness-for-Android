@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">Notifikasi ini menjaga layanan peredupan tetap berjalan agar tidak dimatikan oleh sistem.</string>
     <string name="question_9" translatable="false">Bagaimana saya bisa menghubungi dukungan?</string>
     <string name="summary_preference_faq_9" translatable="false">Kirim masukan dari aplikasi atau buka \'issue\' di GitHub.</string>
+    <string name="battery_optimization_dialog_title">Tingkatkan keandalan di latar belakang</string>
+    <string name="battery_optimization_dialog_message">Optimasi baterai atau mode hemat daya dapat menghentikan layanan peredupan di beberapa perangkat. Anda dapat menonaktifkan optimasi untuk aplikasi ini, membuka pengaturan hemat daya, atau lanjut tanpa perubahan.</string>
+    <string name="disable_battery_optimization">Nonaktifkan optimasi baterai</string>
+    <string name="open_power_saver_settings">Buka pengaturan hemat daya</string>
+    <string name="continue_without_changes">Lanjut tanpa perubahan</string>
 </resources>

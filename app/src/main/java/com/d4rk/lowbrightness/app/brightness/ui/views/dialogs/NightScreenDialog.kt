@@ -25,6 +25,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
 import java.lang.Float.max
 import java.lang.Float.min
+import java.util.Locale
 
 var dialogIsShowing = false
     private set
@@ -74,7 +75,7 @@ fun getNightScreenDialog(c: Context? = null): AlertDialog {
     slider.valueTo = 1f - alphaRange.start
     slider.value = max(slider.valueFrom, min(1f - screenAlpha, slider.valueTo))
     slider.setLabelFormatter {
-        String.format("%.1f", it * 100f) + "%" // FIXME: Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead
+        String.format(Locale.getDefault(), "%.1f", it * 100f) + "%"
     }
     slider.addOnChangeListener { _, value, _ ->
         screenAlpha = 1f - value
@@ -96,11 +97,13 @@ fun requestAllPermissionsWithAccessibilityAndShow(context: Context) {
             action = NightScreenReceiver.SHOW_DIALOG_AND_NIGHT_SCREEN_ACTION
         )
     } else {
-        context.startActivity(
-            Intent(context, MainActivity::class.java).apply {
-                action = MainActivity.REQUEST_PERMISSION_AND_SHOW_ACTION
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-        )
+        runCatching {
+            context.startActivity(
+                Intent(context, MainActivity::class.java).apply {
+                    action = MainActivity.REQUEST_PERMISSION_AND_SHOW_ACTION
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+            )
+        }
     }
 }

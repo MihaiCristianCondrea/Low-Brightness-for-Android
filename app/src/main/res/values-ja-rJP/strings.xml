@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">通知は、調光サービスがシステムによって停止されないように、実行し続けるためにあります。</string>
     <string name="question_9" translatable="false">サポートに連絡するにはどうすればよいですか？</string>
     <string name="summary_preference_faq_9" translatable="false">アプリからフィードバックを送信するか、GitHubでIssueを開いてください。</string>
+    <string name="battery_optimization_dialog_title">バックグラウンドの信頼性を向上</string>
+    <string name="battery_optimization_dialog_message">一部の端末では、バッテリー最適化や省電力モードにより調光サービスが停止する場合があります。このアプリの最適化を無効にするか、省電力設定を開くか、変更せずに続行できます。</string>
+    <string name="disable_battery_optimization">バッテリー最適化を無効化</string>
+    <string name="open_power_saver_settings">省電力設定を開く</string>
+    <string name="continue_without_changes">変更せずに続行</string>
 </resources>

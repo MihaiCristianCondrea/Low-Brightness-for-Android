@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">Известието поддържа услугата за затъмняване активна, така че да не бъде прекратена от системата.</string>
     <string name="question_9" translatable="false">Как мога да се свържа с поддръжката?</string>
     <string name="summary_preference_faq_9" translatable="false">Изпратете обратна връзка от приложението или отворете проблем в GitHub.</string>
+    <string name="battery_optimization_dialog_title">Подобряване на надеждността във фонов режим</string>
+    <string name="battery_optimization_dialog_message">Оптимизацията на батерията или режимът за пестене на енергия може да спре услугата за затъмняване на някои устройства. Можете да изключите оптимизацията за това приложение, да отворите настройките за пестене на енергия или да продължите без промени.</string>
+    <string name="disable_battery_optimization">Изключване на оптимизацията на батерията</string>
+    <string name="open_power_saver_settings">Отваряне на настройки за пестене на енергия</string>
+    <string name="continue_without_changes">Продължи без промени</string>
 </resources>

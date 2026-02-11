@@ -72,7 +72,7 @@ class AppOnboardingProvider : OnboardingProvider {
     }
 
     override fun onOnboardingFinished(context: Context) {
-        context.startActivity(Intent(context, MainActivity::class.java))
+        runCatching { context.startActivity(Intent(context, MainActivity::class.java)) }
         if (context is Activity) {
             context.finish()
         }

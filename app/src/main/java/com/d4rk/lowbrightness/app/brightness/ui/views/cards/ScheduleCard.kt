@@ -14,9 +14,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.material.icons.outlined.PowerSettingsNew
 import androidx.compose.material.icons.outlined.TimerOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,7 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,20 +40,23 @@ import com.d4rk.android.libs.apptoolkit.core.ui.views.modifiers.bounceClick
 import com.d4rk.android.libs.apptoolkit.core.ui.views.spacers.SmallHorizontalSpacer
 import com.d4rk.android.libs.apptoolkit.core.utils.constants.ui.SizeConstants
 import com.d4rk.lowbrightness.R
-import com.d4rk.lowbrightness.app.brightness.domain.ext.fragmentActivity
 import com.d4rk.lowbrightness.app.brightness.domain.services.SchedulerService
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import java.util.Calendar
 import java.util.Locale
 
+private enum class ScheduleTimeType {
+    START,
+    END,
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScheduleCard() {
-    val context = LocalContext.current
+    val context = androidx.compose.ui.platform.LocalContext.current
     val appContext = context.applicationContext
 
-    // ✅ Use Compose resources (no LocalContext.getString inside effects)
     val remainingToLightenLabel = stringResource(R.string.time_remaining_to_lighten_label)
     val remainingToDarkenLabel = stringResource(R.string.time_remaining_to_darken_label)
 
@@ -63,6 +70,7 @@ fun ScheduleCard() {
     var endMinute by remember { mutableIntStateOf(initialEnd.get(Calendar.MINUTE)) }
 
     var remaining by remember { mutableStateOf("") }
+    var selectedPicker by remember { mutableStateOf<ScheduleTimeType?>(null) }
 
     LaunchedEffect(
         enabled,
@@ -100,10 +108,8 @@ fun ScheduleCard() {
             val crossesMidnight = endMinutesOfDay <= startMinutesOfDay
 
             if (crossesMidnight) {
-                // end is "tomorrow"
                 end.add(Calendar.DAY_OF_YEAR, 1)
 
-                // if it's after midnight but before today's end-time, we're inside the interval started yesterday
                 val endToday = (end.clone() as Calendar).apply { add(Calendar.DAY_OF_YEAR, -1) }
                 if (now.before(start) && now.before(endToday)) {
                     start.add(Calendar.DAY_OF_YEAR, -1)
@@ -142,7 +148,7 @@ fun ScheduleCard() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.primary)
+                    .background(color = MaterialTheme.colorScheme.primary)
                     .padding(SizeConstants.MediumSize),
                 contentAlignment = Alignment.Center
             ) {
@@ -198,8 +204,6 @@ fun ScheduleCard() {
                             textAlign = TextAlign.Center
                         )
 
-                        val activity = context.fragmentActivity
-
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -216,14 +220,7 @@ fun ScheduleCard() {
                                 vectorIcon = Icons.Outlined.AccessTime,
                                 iconContentDescription = startTimeLabel,
                                 onClick = {
-                                    val dlg = TimePickerDialog.newInstance({ _, h, m, _ ->
-                                        startHour = h
-                                        startMinute = m
-                                        SchedulerService.setFrom(appContext, h, m)
-                                        SchedulerService.evaluateSchedule(appContext)
-                                    }, startHour, startMinute, true)
-
-                                    activity?.let { dlg.show(it.supportFragmentManager, "from") }
+                                    selectedPicker = ScheduleTimeType.START
                                 },
                                 modifier = Modifier.weight(1f).bounceClick()
                             )
@@ -241,14 +238,7 @@ fun ScheduleCard() {
                                 vectorIcon = Icons.Outlined.TimerOff,
                                 iconContentDescription = endTimeLabel,
                                 onClick = {
-                                    val dlg = TimePickerDialog.newInstance({ _, h, m, _ ->
-                                        endHour = h
-                                        endMinute = m
-                                        SchedulerService.setTo(appContext, h, m)
-                                        SchedulerService.evaluateSchedule(appContext)
-                                    }, endHour, endMinute, true)
-
-                                    activity?.let { dlg.show(it.supportFragmentManager, "to") }
+                                    selectedPicker = ScheduleTimeType.END
                                 },
                                 modifier = Modifier.weight(1f).bounceClick()
                             )
@@ -266,6 +256,68 @@ fun ScheduleCard() {
             }
         }
     }
+
+    val selectedHour = if (selectedPicker == ScheduleTimeType.START) startHour else endHour
+    val selectedMinute = if (selectedPicker == ScheduleTimeType.START) startMinute else endMinute
+
+    if (selectedPicker != null) {
+        ScheduleTimePickerDialog(
+            initialHour = selectedHour,
+            initialMinute = selectedMinute,
+            onDismiss = { selectedPicker = null },
+            onConfirm = { hour, minute ->
+                when (selectedPicker) {
+                    ScheduleTimeType.START -> {
+                        startHour = hour
+                        startMinute = minute
+                        SchedulerService.setFrom(appContext, hour, minute)
+                    }
+
+                    ScheduleTimeType.END -> {
+                        endHour = hour
+                        endMinute = minute
+                        SchedulerService.setTo(appContext, hour, minute)
+                    }
+
+                    null -> Unit
+                }
+                SchedulerService.evaluateSchedule(appContext)
+                selectedPicker = null
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ScheduleTimePickerDialog(
+    initialHour: Int,
+    initialMinute: Int,
+    onDismiss: () -> Unit,
+    onConfirm: (hour: Int, minute: Int) -> Unit,
+) {
+    val pickerState = rememberTimePickerState(
+        initialHour = initialHour,
+        initialMinute = initialMinute,
+        is24Hour = true
+    )
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = { onConfirm(pickerState.hour, pickerState.minute) }) {
+                Text(text = stringResource(id = android.R.string.ok))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(text = stringResource(id = android.R.string.cancel))
+            }
+        },
+        text = {
+            TimePicker(state = pickerState)
+        }
+    )
 }
 
 private fun formatDurationHms(durationMillis: Long): String {

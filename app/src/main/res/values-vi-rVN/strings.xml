@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">Thông báo giữ cho dịch vụ làm mờ luôn chạy để nó không bị hệ thống tắt.</string>
     <string name="question_9" translatable="false">Làm thế nào để liên hệ hỗ trợ?</string>
     <string name="summary_preference_faq_9" translatable="false">Gửi phản hồi từ ứng dụng hoặc mở một vấn đề (issue) trên GitHub.</string>
+    <string name="battery_optimization_dialog_title">Cải thiện độ ổn định khi chạy nền</string>
+    <string name="battery_optimization_dialog_message">Tối ưu pin hoặc chế độ tiết kiệm pin có thể dừng dịch vụ làm tối trên một số thiết bị. Bạn có thể tắt tối ưu cho ứng dụng này, mở cài đặt tiết kiệm pin hoặc tiếp tục mà không thay đổi.</string>
+    <string name="disable_battery_optimization">Tắt tối ưu pin</string>
+    <string name="open_power_saver_settings">Mở cài đặt tiết kiệm pin</string>
+    <string name="continue_without_changes">Tiếp tục không thay đổi</string>
 </resources>

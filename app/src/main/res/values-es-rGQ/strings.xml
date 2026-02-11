@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">La notificación mantiene el servicio de atenuación en funcionamiento para que el sistema no lo cierre.</string>
     <string name="question_9" translatable="false">¿Cómo puedo contactar con el soporte?</string>
     <string name="summary_preference_faq_9" translatable="false">Envía comentarios desde la aplicación o abre un "issue" en GitHub.</string>
+    <string name="battery_optimization_dialog_title">Mejorar la fiabilidad en segundo plano</string>
+    <string name="battery_optimization_dialog_message">La optimización de batería o el ahorro de energía puede detener el servicio de atenuación en algunos dispositivos. Puedes desactivar la optimización para esta app, abrir los ajustes de ahorro de energía o continuar sin cambios.</string>
+    <string name="disable_battery_optimization">Desactivar optimización de batería</string>
+    <string name="open_power_saver_settings">Abrir ajustes de ahorro de energía</string>
+    <string name="continue_without_changes">Continuar sin cambios</string>
 </resources>

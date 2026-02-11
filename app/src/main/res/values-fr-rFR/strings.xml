@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">La notification maintient le service d\'assombrissement en cours d\'exécution afin qu\'il ne soit pas arrêté par le système.</string>
     <string name="question_9" translatable="false">Comment puis-je contacter le support ?</string>
     <string name="summary_preference_faq_9" translatable="false">Envoyez des commentaires depuis l\'application ou ouvrez un ticket sur GitHub.</string>
+    <string name="battery_optimization_dialog_title">Améliorer la fiabilité en arrière-plan</string>
+    <string name="battery_optimization_dialog_message">L’optimisation de la batterie ou l’économiseur d’énergie peut arrêter le service d’assombrissement sur certains appareils. Vous pouvez désactiver l’optimisation pour cette application, ouvrir les paramètres d’économie d’énergie ou continuer sans modification.</string>
+    <string name="disable_battery_optimization">Désactiver l’optimisation de la batterie</string>
+    <string name="open_power_saver_settings">Ouvrir les paramètres d’économie d’énergie</string>
+    <string name="continue_without_changes">Continuer sans modification</string>
 </resources>

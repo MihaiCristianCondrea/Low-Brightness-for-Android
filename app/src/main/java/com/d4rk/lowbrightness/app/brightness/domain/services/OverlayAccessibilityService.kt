@@ -1,8 +1,10 @@
 package com.d4rk.lowbrightness.app.brightness.domain.services
 
 import android.accessibilityservice.AccessibilityService
+import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Context
 import android.content.res.Configuration
+import android.view.accessibility.AccessibilityManager
 import android.provider.Settings
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
@@ -57,6 +59,19 @@ class OverlayAccessibilityService : AccessibilityService() {
 }
 
 fun isAccessibilityServiceRunning(context: Context): Boolean {
+    val accessibilityManager =
+        context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+    val enabledServices =
+        accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK)
+
+    if (enabledServices.any { serviceInfo ->
+            serviceInfo.resolveInfo.serviceInfo.packageName == context.packageName &&
+                serviceInfo.resolveInfo.serviceInfo.name == OverlayAccessibilityService::class.java.name
+        }
+    ) {
+        return true
+    }
+
     val prefString: String? = Settings.Secure.getString(
         context.contentResolver,
         Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES

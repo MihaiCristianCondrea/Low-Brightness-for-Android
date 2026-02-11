@@ -80,10 +80,24 @@ object SchedulerService {
 
     fun evaluateSchedule(context: Context) {
         if (!runAsScheduled) return
-        val start = getCalendarForStart(context)
-        val end = getCalendarForEnd(context)
+        val prefs = context.sharedPreferences()
+        val startHour = prefs.getInt(PREF_SCHEDULE_FROM_HOUR, 20)
+        val startMinute = prefs.getInt(PREF_SCHEDULE_FROM_MINUTE, 0)
+        val endHour = prefs.getInt(PREF_SCHEDULE_TO_HOUR, 6)
+        val endMinute = prefs.getInt(PREF_SCHEDULE_TO_MINUTE, 0)
+
         val now = Calendar.getInstance()
-        if (now.timeInMillis in start.timeInMillis..end.timeInMillis) {
+        val nowMinutes = now.get(Calendar.HOUR_OF_DAY) * 60 + now.get(Calendar.MINUTE)
+        val startMinutes = startHour * 60 + startMinute
+        val endMinutes = endHour * 60 + endMinute
+
+        val shouldBeActive = when {
+            startMinutes == endMinutes -> true
+            startMinutes < endMinutes -> nowMinutes in startMinutes..<endMinutes
+            else -> nowMinutes >= startMinutes || nowMinutes < endMinutes
+        }
+
+        if (shouldBeActive) {
             showNightScreen()
         } else {
             closeNightScreen()

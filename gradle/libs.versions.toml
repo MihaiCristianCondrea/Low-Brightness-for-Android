@@ -4,7 +4,6 @@ kotlin = "2.3.10"
 aboutlibraries = "14.0.0-b02"
 google-services = "4.4.4"
 google-firebase-crashlytics = "3.0.6"
-materialdatetimepicker = "4.2.3"
 preferenceKtx = "1.2.1"
 md3 = "1.4.0"
 accompanist = "0.36.0"
@@ -27,7 +26,6 @@ robolectric = "4.16.1"
 junit4 = "4.13.2"
 
 [libraries]
-materialdatetimepicker = { module = "com.wdullaer:materialdatetimepicker", version.ref = "materialdatetimepicker" }
 preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 compose-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "md3" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }

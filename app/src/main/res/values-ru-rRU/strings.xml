@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">Уведомление поддерживает работу службы затемнения, чтобы система её не завершила.</string>
     <string name="question_9" translatable="false">Как связаться с поддержкой?</string>
     <string name="summary_preference_faq_9" translatable="false">Отправьте отзыв из приложения или создайте issue на GitHub.</string>
+    <string name="battery_optimization_dialog_title">Повысить надежность в фоне</string>
+    <string name="battery_optimization_dialog_message">Оптимизация батареи или режим энергосбережения может остановить сервис затемнения на некоторых устройствах. Вы можете отключить оптимизацию для этого приложения, открыть настройки энергосбережения или продолжить без изменений.</string>
+    <string name="disable_battery_optimization">Отключить оптимизацию батареи</string>
+    <string name="open_power_saver_settings">Открыть настройки энергосбережения</string>
+    <string name="continue_without_changes">Продолжить без изменений</string>
 </resources>

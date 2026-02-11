@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">Сповіщення підтримує роботу служби затемнення, щоб система її не завершила.</string>
     <string name="question_9" translatable="false">Як зв\'язатися з підтримкою?</string>
     <string name="summary_preference_faq_9" translatable="false">Надішліть відгук із додатка або створіть issue на GitHub.</string>
+    <string name="battery_optimization_dialog_title">Arka planda güvenilirliği artır</string>
+    <string name="battery_optimization_dialog_message">Pil optimizasyonu veya güç tasarrufu bazı cihazlarda karartma hizmetini durdurabilir. Bu uygulama için optimizasyonu devre dışı bırakabilir, güç tasarrufu ayarlarını açabilir veya değişiklik yapmadan devam edebilirsiniz.</string>
+    <string name="disable_battery_optimization">Pil optimizasyonunu devre dışı bırak</string>
+    <string name="open_power_saver_settings">Güç tasarrufu ayarlarını aç</string>
+    <string name="continue_without_changes">Değişiklik yapmadan devam et</string>
 </resources>

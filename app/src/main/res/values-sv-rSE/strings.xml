@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">Aviseringen håller igång dämpningstjänsten så att den inte avslutas av systemet.</string>
     <string name="question_9" translatable="false">Hur kan jag kontakta support?</string>
     <string name="summary_preference_faq_9" translatable="false">Skicka feedback från appen eller öppna ett ärende (issue) på GitHub.</string>
+    <string name="battery_optimization_dialog_title">Förbättra tillförlitligheten i bakgrunden</string>
+    <string name="battery_optimization_dialog_message">Batterioptimering eller energisparläge kan stoppa dämpningstjänsten på vissa enheter. Du kan inaktivera optimering för den här appen, öppna energisparinställningar eller fortsätta utan ändringar.</string>
+    <string name="disable_battery_optimization">Inaktivera batterioptimering</string>
+    <string name="open_power_saver_settings">Öppna energisparinställningar</string>
+    <string name="continue_without_changes">Fortsätt utan ändringar</string>
 </resources>

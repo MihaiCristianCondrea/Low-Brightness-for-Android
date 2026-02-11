@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">الإشعار يحافظ على تشغيل خدمة التعتيم حتى لا يوقفها النظام.</string>
     <string name="question_9" translatable="false">كيف يمكنني التواصل مع الدعم الفني؟</string>
     <string name="summary_preference_faq_9" translatable="false">أرسل ملاحظاتك من داخل التطبيق أو افتح مشكلة (issue) على GitHub.</string>
+    <string name="battery_optimization_dialog_title">تحسين الموثوقية في الخلفية</string>
+    <string name="battery_optimization_dialog_message">قد يؤدي تحسين البطارية أو وضع توفير الطاقة إلى إيقاف خدمة التعتيم على بعض الأجهزة. يمكنك تعطيل التحسين لهذا التطبيق، أو فتح إعدادات توفير الطاقة، أو المتابعة بدون تغييرات.</string>
+    <string name="disable_battery_optimization">تعطيل تحسين البطارية</string>
+    <string name="open_power_saver_settings">فتح إعدادات توفير الطاقة</string>
+    <string name="continue_without_changes">المتابعة بدون تغييرات</string>
 </resources>

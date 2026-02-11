@@ -94,4 +94,9 @@
     <string name="summary_preference_faq_8" translatable="false">Die Benachrichtigung hält den Dimm-Dienst am Laufen, damit er nicht vom System beendet wird.</string>
     <string name="question_9" translatable="false">Wie kann ich den Support kontaktieren?</string>
     <string name="summary_preference_faq_9" translatable="false">Sende Feedback aus der App oder öffne ein Issue auf GitHub.</string>
+    <string name="battery_optimization_dialog_title">Zuverlässigkeit im Hintergrund verbessern</string>
+    <string name="battery_optimization_dialog_message">Akkuoptimierung oder Energiesparmodus kann den Dimmdienst auf einigen Geräten beenden. Sie können die Optimierung für diese App deaktivieren, die Energiespar-Einstellungen öffnen oder ohne Änderungen fortfahren.</string>
+    <string name="disable_battery_optimization">Akkuoptimierung deaktivieren</string>
+    <string name="open_power_saver_settings">Energiespar-Einstellungen öffnen</string>
+    <string name="continue_without_changes">Ohne Änderungen fortfahren</string>
 </resources>
